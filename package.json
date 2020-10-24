@@ -1,7 +1,7 @@
 {
-  "name": "mern",
+  "name": "Class Time App",
   "version": "1.0.0",
-  "description": "Mern Demo",
+  "description": "Track time while teaching a class using a user supplied lesson plan",
   "main": "server.js",
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
