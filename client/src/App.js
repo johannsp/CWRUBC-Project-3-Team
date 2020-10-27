@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import Button from 'react-bootstrap/Button';
 
 class App extends Component {
   render() {
@@ -13,6 +14,7 @@ class App extends Component {
         <p className="App-intro">
           Coming Soon... Class Time App!
         </p>
+        <Button variant="primary">Test</Button>
       </div>
     );
   }
