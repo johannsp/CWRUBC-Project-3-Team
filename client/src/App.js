@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import NoMatch from "./pages/NoMatch";
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -13,6 +17,19 @@ class App extends Component {
         <p className="App-intro">
           Coming Soon... Class Time App!
         </p>
+        <Router>
+          <Switch>
+            <Route exact path={["/", "/login"]}>
+              <Login />
+            </Route>
+            <Route exact path="/signup">
+              <Signup />
+            </Route>
+            <Route>
+              <NoMatch />
+            </Route>
+          </Switch>
+        </Router>
       </div>
     );
   }
