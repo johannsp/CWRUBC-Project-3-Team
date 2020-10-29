@@ -40,6 +40,7 @@ module.exports = {
       }, {
         where: {
           id: req.body.id
+        }
       })
       .then(function(dbLesson) {
         res.json(dbLesson);

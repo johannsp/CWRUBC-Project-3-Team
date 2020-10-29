@@ -1,33 +1,18 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Jumbotron from "../../components/Jumbotron";
-import { Col, Row, Container } from "../../components/Grid";
-import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+import { Jumbotron, Col, Row, Container, Form, Button } from "react-bootstrap";
 import authAPI from "../../utils/authAPI";
 
 function Login() {
-  const [formObject, setFormObject] = useState({
-    email: "",
-    password: ""
-  })
-
-  // Handles updating component state when the user types into the input field
-  function handleInputChange(event) {
-    const { name, value } = event.target;
-    setFormObject({...formObject, [name]: value})
-  };
+  const [email, setEmail] = useState( "" );
+  const [password, setPassword] = useState( "" );
 
   // When the form is submitted, use the API.saveBook method to save the book data
   // Then reload books from the database
   function handleFormSubmit(event) {
     event.preventDefault();
-    if (formObject.email && formObject.password) {
-      authAPI.login(formObject.email, formObject.password)
-        .then(() => setFormObject({
-          email: "",
-          password: ""
-        }))
+    if (email && password) {
+      authAPI.login(email, password)
         .then({/* Need to change pages here!!*/})
         .catch(err => console.log(err));
     }
@@ -36,34 +21,36 @@ function Login() {
   return (
     <Container fluid>
       <Row>
-        <Col size="md-6 md-offset-3">
+        <Col className="col-md-6 col-md-offset-3">
           <Jumbotron>
           <h2>Login Form</h2>
           </Jumbotron>
 
           {/* Login Form */}
-          <form className="login">
-            <Input
-              onChange={handleInputChange}
-              type="email"
-              name="email-input"
-              placeholder="Email"
-              value={formObject.email}
-            />
-            <Input
-              onChange={handleInputChange}
-              type="password"
-              name="password-input"
-              placeholder="Password"
-              value={formObject.password}
-            />
-            <FormBtn
+          <Form className="login">
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                onChange={ e => setEmail(e.target.value) }
+                type="email"
+                placeholder="Enter email"
+              />
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                onChange={ e => setPassword(e.target.value) }
+                type="password"
+                placeholder="Password"
+              />
+            </Form.Group>
+            <Button
               className="btn btn-default"
               onClick={handleFormSubmit}
             >
             Login
-            </FormBtn>
-          </form>
+            </Button>
+          </Form>
           
           <br />
           <p>Or sign up <Link to="/signup">here</Link></p>

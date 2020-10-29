@@ -1,8 +1,14 @@
 import axios from "axios";
 
+/* {{{ **
+** axios.defaults.baseURL = "http://localhost:3001";
+** }}} */
+
 export default {
   // Login
   login: function(email, password) {
+    console.log("∞° email=\n", email);
+    console.log("∞° password=\n", password);
     return axios.post("/api/auth/login", {
       email: email,
       password: password
