@@ -1,8 +1,10 @@
 import React, { Component } from "react"; import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import logo from "./logo.svg";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import NoMatch from "./pages/NoMatch";
 import "./App.css";
+import Button from 'react-bootstrap/Button';
 
 class App extends Component {
   render() {
@@ -21,6 +23,13 @@ class App extends Component {
             </Route>
           </Switch>
         </Router>
+        <div className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h2>Welcome to React</h2>
+        </div>
+        <p className="App-intro">
+          Coming Soon... Class Time App!
+        </p>
       </div>
     );
   }
