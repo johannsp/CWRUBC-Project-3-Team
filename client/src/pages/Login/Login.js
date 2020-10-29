@@ -1,20 +1,35 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Jumbotron, Col, Row, Container, Form, Button } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
+import Jumbotron from "react-bootstrap/Jumbotron";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import authAPI from "../../utils/authAPI";
 
 function Login() {
   const [email, setEmail] = useState( "" );
   const [password, setPassword] = useState( "" );
+  const [prompt, setPrompt] = useState( "Please login or sign up" );
 
-  // When the form is submitted, use the API.saveBook method to save the book data
-  // Then reload books from the database
+  const history = useHistory();
+
+  // When the form is submitted, attempt to authenticate using the
+  // supplied email and password
   function handleFormSubmit(event) {
     event.preventDefault();
     if (email && password) {
       authAPI.login(email, password)
-        .then({/* Need to change pages here!!*/})
-        .catch(err => console.log(err));
+        .then(() => {
+          setPrompt("Okay, redirecting");
+          /* Need to change pages here!!*/
+          history.push("/home");
+        })
+        .catch(err => {
+          setPrompt("Login failed; please try again");
+          console.log(err)
+        });
     }
   };
 
@@ -24,6 +39,7 @@ function Login() {
         <Col className="col-md-6 col-md-offset-3">
           <Jumbotron>
           <h2>Login Form</h2>
+          <p>{prompt}</p>
           </Jumbotron>
 
           {/* Login Form */}

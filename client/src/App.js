@@ -1,10 +1,14 @@
-import React, { Component } from "react"; import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import logo from "./logo.svg";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import HomePage from "./pages/HomePage";
 import NoMatch from "./pages/NoMatch";
 import "./App.css";
-import Button from 'react-bootstrap/Button';
+/* {{{ **
+** import Button from 'react-bootstrap/Button';
+** }}} */
 
 class App extends Component {
   render() {
@@ -17,6 +21,9 @@ class App extends Component {
             </Route>
             <Route exact path="/signup">
               <Signup />
+            </Route>
+            <Route exact path="/home">
+              <HomePage />
             </Route>
             <Route>
               <NoMatch />

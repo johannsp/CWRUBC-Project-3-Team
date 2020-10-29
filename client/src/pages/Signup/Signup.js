@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Jumbotron, Col, Row, Container, Form, Button } from "react-bootstrap";
 import authAPI from "../../utils/authAPI";
 
@@ -7,13 +7,18 @@ function Signup() {
   const [email, setEmail] = useState( "" );
   const [password, setPassword] = useState( "" );
 
+  const history = useHistory();
+
   // When the form is submitted, use the API.saveBook method to save the book data
   // Then reload books from the database
   function handleFormSubmit(event) {
     event.preventDefault();
     if (email && password) {
       authAPI.signup(email, password)
-        .then({/* Need to change pages here!!*/})
+        .then(() => {
+          /* Need to change pages here */
+          history.push("/home");
+        })
         .catch(err => console.log(err));
     }
   };
