@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Container, Form, Button, Col, Jumbotron } from "react-bootstrap";
+import { Link, useLocation } from "react-router-dom";
+import { Container, Button, Col, Jumbotron } from "react-bootstrap";
 import LessonCard from "../components/lesson-card";
 
 class HomePage extends React.Component {
@@ -23,7 +24,9 @@ class HomePage extends React.Component {
       <Container className="d-flex min-vh-100 justify-content-center align-items-center">
         <Col>
           <Jumbotron>
-            <Button variant="secondary">Create Lesson Plan</Button>{" "}
+            <Link to="/addlesson">
+                <Button variant="secondary">Create Lesson Plan</Button>
+            </Link>
             {this.state.sampleData.map((lessonPlan) => {
               return (
                 <LessonCard
