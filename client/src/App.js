@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import NoMatch from "./pages/NoMatch";
 import HomePage from "./pages/homepage";
 import AddLesson from "./pages/add-lesson";
+import LiveLesson from "./pages/live-lesson";
 import "./App.css";
 
 class App extends Component {
@@ -24,6 +25,9 @@ class App extends Component {
             </Route>
             <Route exact path="/addlesson">
               <AddLesson />
+            </Route>
+            <Route exact path="/livelesson">
+              <LiveLesson />
             </Route>
             <Route>
               <NoMatch />

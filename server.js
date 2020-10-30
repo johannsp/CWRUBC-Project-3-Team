@@ -52,9 +52,9 @@ if (process.env.NODE_ENV === "production") {
 db.sequelize
   .sync({
     // Drop database and all tables on each restart of server
-    force: true,
+   force: true,
     // but only in development account, not test or production
-    match: /_dev$/
+   match: /_dev$/
   })
   .then(() => {
     app.listen(PORT, () => {
