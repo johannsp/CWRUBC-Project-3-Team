@@ -2,7 +2,7 @@ module.exports = function(sequelize, DataTypes) {
   const Topic = sequelize.define("Topic", {
     title: DataTypes.STRING,
     time: DataTypes.TIME,
-    textarea: {
+    notes: {
       type: DataTypes.TEXT,
       allowNull: false,
       len: [1]

@@ -37,7 +37,7 @@ module.exports = {
       .update({
         title: req.body.title,
         time: req.body.time,
-        textarea: req.body.textarea
+        notes: req.body.notes
       }, {
         where: {
           id: req.body.id
