@@ -1,6 +1,5 @@
-//Under construction
-
 import React, {useState} from "react";
+import { Link } from "react-router-dom";
 import { Container, Form, Button, Col, Card } from 'react-bootstrap';
 
 function LessonCard(props) {
@@ -10,7 +9,9 @@ function LessonCard(props) {
             <Card.Body>
                 <p className="m-1">{props.title}</p>
                 <p className="m-1">{props.time}</p>
-                <Button className="m-1">START</Button>
+                <Link to="/livelesson">
+                    <Button className="m-1">START</Button>
+                </Link>
                 <Button className="m-1">EDIT</Button>
                 <Button className="m-1">DELETE</Button>
             </Card.Body>
