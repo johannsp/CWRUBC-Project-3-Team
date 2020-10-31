@@ -40,7 +40,7 @@ module.exports = {
         notes: req.body.notes
       }, {
         where: {
-          id: req.body.id
+          id: req.params.id
         }
       })
       .then(function(dbTopic) {
