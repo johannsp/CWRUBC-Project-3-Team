@@ -1,33 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Container, Button, Col, Jumbotron } from "react-bootstrap";
 import TopicCard from "../components/topic-card";
-import API from "../utils/databaseLessonAPI";
+import API from "../utils/databaseTopicAPI";
 
 /* {{{ **
 ** import React, { useState } from "react";
 ** import { Container, Form, Button, Col, Jumbotron } from "react-bootstrap";
 ** import TopicCard from "../components/topic-card";
-** import API from "../utils/databaseLessonAPI";
+** import API from "../utils/databaseTopicAPI";
 ** }}} */
 
-class AddLesson extends React.Component {
+class AddTopic extends React.Component {
   // Setting the component's initial state
   state = {
-    sampleData: [
-      {
-        topicTitle: "Basic Algorithms",
-        topicTime: "15:00",
-        topicNotes: "These are some notes for the topic I'm currently speaking about."
-      },
-      {
-        topicTitle: "22.2 Algorithms",
-        topicTime: "30:00",
-        topicNotes: "Wow look here's more sample notes for this other topic!"
-      },
-    ],
-    lessonTitle: '',
-    savedID: -1
+    topicTitle: '',
+    topicNotes: ''
   };
 
   handleInputChange = event => {
@@ -45,14 +32,14 @@ class AddLesson extends React.Component {
     // Preventing the default behavior of the form submit (which is to refresh the page)
     event.preventDefault();
 
-    // Store the lesson title
+    // Store the topic title
     const data = {
-      title: this.state.lessonTitle
+      title: this.state.topicTitle
     };
-    API.saveLesson(data)
-      .then( ( {id} ) => {
+    API.saveTopic(data)
+      .then( () => {
         this.setState({
-          lessonTitle: "",
+          topicTitle: "",
         });
       })
       .catch( (error) => {
@@ -67,12 +54,12 @@ class AddLesson extends React.Component {
   render() {
     /* {{{ **
     ** <Jumbotron>
-    **   {this.state.sampleData.map((lessonTopic) => {
+    **   {this.state.sampleData.map((topicTopic) => {
     **     return (
     **       <TopicCard
-    **         title={lessonTopic.topicTitle}
-    **         time={lessonTopic.topicTime}
-    **         notes={lessonTopic.topicNotes}
+    **         title={topicTopic.topicTitle}
+    **         time={topicTopic.topicTime}
+    **         notes={topicTopic.topicNotes}
     **       />
     **     );
     **   })}
@@ -82,20 +69,26 @@ class AddLesson extends React.Component {
       <Container className="d-flex min-vh-100 justify-content-center align-items-center">
         <Col>
           <Jumbotron>
-            <h3>Add Lesson</h3>
+            <h3>Add Topic</h3>
             <form className="form">
               <input
-                value={this.state.lessonTitle}
-                name="lessonTitle"
+                value={this.state.topicTitle}
+                name="topicTitle"
                 onChange={this.handleInputChange}
                 type="text"
-                placeholder="Lesson Title"
+                placeholder="Topic Title"
+              />
+              <textarea
+                value={this.state.topicTitle}
+                name="topicTitle"
+                onChange={this.handleInputChange}
+                placeholder="Topic Title"
               />
               <button onClick={this.handleFormSubmit}>Save</button>
             </form>
-            <Link to="/addtopic">
-              <Button variant="secondary">Add Topic</Button>
-            </Link>
+            <Button
+              variant="secondary"
+            >Save</Button>
           </Jumbotron>
         </Col>
       </Container>
@@ -103,4 +96,4 @@ class AddLesson extends React.Component {
   }
 }
 
-export default AddLesson;
+export default AddTopic;

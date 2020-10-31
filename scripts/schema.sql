@@ -1,0 +1,28 @@
+DROP DATABASE IF EXISTS classTime_dev;
+CREATE DATABASE classTime_dev;
+USE classTime_dev;
+
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL
+);
+
+DROP TABLE IF EXISTS lessons;
+CREATE TABLE lessons (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  time TIME,
+);
+
+DROP TABLE IF EXISTS topics;
+CREATE TABLE songs (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  time TIME,
+  notes TEXT,
+  lesson_id INT NOT NULL,
+  CONSTRAINT FK_topic_userId FOREIGN KEY (lesson_id)
+  REFERENCES lessons(id)
+);
