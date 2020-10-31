@@ -39,7 +39,7 @@ module.exports = {
         time: req.body.time
       }, {
         where: {
-          id: req.body.id
+          id: req.params.id
         }
       })
       .then(function(dbLesson) {
