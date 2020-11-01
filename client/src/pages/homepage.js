@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Container, Button, Col, Jumbotron } from "react-bootstrap";
 import LessonCard from "../components/lesson-card";
+import API from "../utils/databaseLessonAPI";
 
 /* {{{ **
 ** import React, { useState } from "react";
@@ -12,19 +13,25 @@ import LessonCard from "../components/lesson-card";
 
 class HomePage extends React.Component {
   state = {
-    sampleData: [
-      {
-        lessonTitle: "22.1 CS 101",
-        lessonTime: "2:30",
-      },
-      {
-        lessonTitle: "22.2 Algorithms",
-        lessonTime: "3:00",
-      },
-    ],
+    lessonData: []
   };
 
   handleChange = (event) => {};
+
+  componentDidMount() {
+    this.loadLessonPlan();
+  }
+
+  loadLessonPlan = () => {
+    API.getAllLessons()
+      .then(res => {
+        this.setState({
+          lessonData: res.data
+        });
+        console.log("∞° this.state.lessonData=\n", this.state.lessonData);
+      })
+      .catch(err => console.log(err));
+  };
 
   render() {
     return (
@@ -34,9 +41,12 @@ class HomePage extends React.Component {
             <Link to="/addlesson">
               <Button variant="secondary">Create Lesson Plan</Button>
             </Link>
-            {this.state.sampleData.map((lessonPlan) => {
+            {this.state.lessonData.map((lessonPlan) => {
               return (
                 <LessonCard
+                  viewOnly={true}
+                  canDelete={false}
+                  id={lessonPlan.id}
                   title={lessonPlan.lessonTitle}
                   time={lessonPlan.lessonTime}
                 />

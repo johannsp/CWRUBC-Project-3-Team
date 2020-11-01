@@ -65,30 +65,49 @@ class AddTopic extends React.Component {
     **   })}
     ** </Jumbotron>
     ** }}} */
+    /* {{{ **
+    ** return (
+    **   <Container className="d-flex min-vh-100 justify-content-center align-items-center">
+    **     <Col>
+    **       <Jumbotron>
+    **         <h3>Add Topic</h3>
+    **         <form className="form">
+    **           <input
+    **             value={this.state.topicTitle}
+    **             name="topicTitle"
+    **             onChange={this.handleInputChange}
+    **             type="text"
+    **             placeholder="Topic"
+    **           />
+    **           <textarea
+    **             value={this.state.topicNotes}
+    **             name="topicNotes"
+    **             onChange={this.handleInputChange}
+    **             placeholder="Notes"
+    **           />
+    **           <button onClick={this.handleFormSubmit}>Save</button>
+    **         </form>
+    **         <Button
+    **           variant="secondary"
+    **         >Save</Button>
+    **       </Jumbotron>
+    **     </Col>
+    **   </Container>
+    ** );
+    ** }}} */
     return (
       <Container className="d-flex min-vh-100 justify-content-center align-items-center">
         <Col>
           <Jumbotron>
             <h3>Add Topic</h3>
-            <form className="form">
-              <input
-                value={this.state.topicTitle}
-                name="topicTitle"
-                onChange={this.handleInputChange}
-                type="text"
-                placeholder="Topic Title"
-              />
-              <textarea
-                value={this.state.topicTitle}
-                name="topicTitle"
-                onChange={this.handleInputChange}
-                placeholder="Topic Title"
-              />
-              <button onClick={this.handleFormSubmit}>Save</button>
-            </form>
-            <Button
-              variant="secondary"
-            >Save</Button>
+            <TopicCard
+              viewOnly={false}
+              canDelete={true}
+              id={null}
+              name=""
+              time="0:00:00"
+              notes=""
+            />
           </Jumbotron>
         </Col>
       </Container>
