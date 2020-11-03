@@ -28,6 +28,7 @@ class HomePage extends React.Component {
         this.setState({
           lessonData: res.data
         });
+        this.props.setStateLesson(this.lessonData.id, this.lessonData.title);
         console.log("∞° this.state.lessonData=\n", this.state.lessonData);
       })
       .catch(err => console.log(err));
@@ -39,16 +40,24 @@ class HomePage extends React.Component {
         <Col>
           <Jumbotron>
             <Link to="/addlesson">
-              <Button variant="secondary">Create Lesson Plan</Button>
+              <Button
+                variant="secondary"
+              >Create Lesson Plan</Button>
             </Link>
             {this.state.lessonData.map((lessonPlan) => {
+              console.log("∞° lessonPlan=\n", lessonPlan);
+              console.log("∞° lessonPlan.title=\n", lessonPlan.title);
               return (
                 <LessonCard
+                  setStateLesson={this.props.setStateLesson}
                   viewOnly={true}
-                  canDelete={false}
+                  canStart={true}
+                  canEdit={true}
+                  canDelete={true}
                   id={lessonPlan.id}
-                  title={lessonPlan.lessonTitle}
-                  time={lessonPlan.lessonTime}
+                  key={lessonPlan.id}
+                  title={lessonPlan.title}
+                  duration={lessonPlan.duration}
                 />
               );
             })}

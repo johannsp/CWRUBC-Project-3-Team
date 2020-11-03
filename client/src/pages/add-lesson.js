@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Container, Button, Col, Jumbotron } from "react-bootstrap";
-import TopicCard from "../components/topic-card";
 import API from "../utils/databaseLessonAPI";
 
 /* {{{ **
@@ -11,23 +10,29 @@ import API from "../utils/databaseLessonAPI";
 ** import API from "../utils/databaseLessonAPI";
 ** }}} */
 
+  /* {{{ **
+  ** state = {
+  **   sampleData: [
+  **     {
+  **       topicTitle: "Basic Algorithms",
+  **       topicTime: "15:00",
+  **       topicNotes: "These are some notes for the topic I'm currently speaking about."
+  **     },
+  **     {
+  **       topicTitle: "22.2 Algorithms",
+  **       topicTime: "30:00",
+  **       topicNotes: "Wow look here's more sample notes for this other topic!"
+  **     },
+  **   ],
+  **   lessonTitle: '',
+  **   savedId: -1
+  ** };
+  ** }}} */
+
 class AddLesson extends React.Component {
   // Setting the component's initial state
   state = {
-    sampleData: [
-      {
-        topicTitle: "Basic Algorithms",
-        topicTime: "15:00",
-        topicNotes: "These are some notes for the topic I'm currently speaking about."
-      },
-      {
-        topicTitle: "22.2 Algorithms",
-        topicTime: "30:00",
-        topicNotes: "Wow look here's more sample notes for this other topic!"
-      },
-    ],
     lessonTitle: '',
-    savedID: -1
   };
 
   handleInputChange = event => {
@@ -51,8 +56,9 @@ class AddLesson extends React.Component {
     };
     API.saveLesson(data)
       .then( ( {id} ) => {
-        this.setState({
-          lessonTitle: "",
+        this.props.setStateLesson({
+          lessonId: id,
+          lessonTitle: this.state.lessonTitle
         });
       })
       .catch( (error) => {
