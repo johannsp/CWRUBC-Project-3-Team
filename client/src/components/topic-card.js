@@ -22,12 +22,12 @@ function TopicCard(props) {
   const [id, setId] = useState(props.id);
   const [prompt, setPrompt] = useState(""); // Inform user of issues
   const titleRef = useRef(props.title);
-  const timeRef = useRef(props.time);
+  const durationRef = useRef(props.duration);
   const notesRef = useRef(props.notes);
 
   const deleteTopic = () => {
     if (id) {
-      API.deleteTopic(id)
+      API.deleteTopicByID(id)
         .then( ( {id} ) => {
           setId(id);  // Resave in state hook in case we need it
         })
@@ -41,8 +41,9 @@ function TopicCard(props) {
     event.preventDefault();
     const data = {
       title: titleRef.current.value,
-      time: timeRef.current.value,
-      notes: notesRef.current.value
+      duration: durationRef.current.value,
+      notes: notesRef.current.value,
+      LessonId: props.lessonId 
     };
     console.log("∞° TopicCard submit: data=\n", data);
     console.log("∞° id=\n", id);
@@ -52,7 +53,7 @@ function TopicCard(props) {
       setPrompt("Please enter topic");
       return;
     }
-    if (!(data.time) || 0 === data.time.length)
+    if (!(data.duration))
     {
       setPrompt("Please enter amount of time");
       return;
@@ -84,6 +85,24 @@ function TopicCard(props) {
     }
   };
 
+  const title = () => {
+    const retVal = props.title || "Lesson";
+    console.log("∞° retVal=\n", retVal);
+    return retVal;
+  }
+
+  const duration = () => {
+    const retVal = props.duration || "Amount of time";
+    console.log("∞° retVal=\n", retVal);
+    return retVal;
+  }
+
+  const notes = () => {
+    const retVal = props.notes || "Notes";
+    console.log("∞° retVal=\n", retVal);
+    return retVal;
+  }
+
   return(
     <Card className="m-3">
       <form className="form" onSubmit={handleSubmit}>
@@ -92,21 +111,21 @@ function TopicCard(props) {
           ref={titleRef}
           name="topicTitle"
           type="text"
-          placeholder="Topic"
+          placeholder={title()}
         />
         <input
           disabled={props.viewOnly}
-          ref={timeRef}
-          name="topicTime"
+          ref={durationRef}
+          name="topicDuration"
           type="text"
-          placeholder="Amount of time"
+          placeholder={duration()}
         />
         <Card.Body>
           <textarea
             disabled={props.viewOnly}
             ref={notesRef}
             name="topicNotes"
-            placeholder="Notes"
+            placeholder={notes()}
           />
         </Card.Body>
         {/* Save button is hidden when data input is view only */}

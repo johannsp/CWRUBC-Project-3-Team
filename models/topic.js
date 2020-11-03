@@ -1,7 +1,10 @@
 module.exports = function(sequelize, DataTypes) {
   const Topic = sequelize.define("Topic", {
     title: DataTypes.STRING,
-    time: DataTypes.TIME,
+    duration: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
     notes: {
       type: DataTypes.TEXT,
       allowNull: false,

@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Button, Col, Jumbotron } from "react-bootstrap";
+import { Container, Col, Jumbotron } from "react-bootstrap";
 import TopicCard from "../components/topic-card";
 import API from "../utils/databaseTopicAPI";
 
@@ -99,13 +99,16 @@ class AddTopic extends React.Component {
       <Container className="d-flex min-vh-100 justify-content-center align-items-center">
         <Col>
           <Jumbotron>
+            <h3>Lesson ({this.props.lessonID}): {this.props.lessonTitle}</h3>
             <h3>Add Topic</h3>
             <TopicCard
+              lessonId={this.props.lessonId}
+              setLessonState={this.props.setLessonState}
               viewOnly={false}
               canDelete={true}
               id={null}
               name=""
-              time="0:00:00"
+              duration={0}
               notes=""
             />
           </Jumbotron>

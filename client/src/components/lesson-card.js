@@ -26,11 +26,11 @@ function LessonCard(props) {
   const [id, setId] = useState(props.id);
   const [prompt, setPrompt] = useState(""); // Inform user of issues
   const titleRef = useRef(props.title);
-  const timeRef = useRef(props.time);
+  const durationRef = useRef(props.duration);
 
   const deleteLesson = () => {
     if (id) {
-      API.deleteLesson(id)
+      API.deleteLessonByID(id)
         .then( ( {id} ) => {
           setId(id);  // Resave in state hook in case we need it
         })
@@ -44,7 +44,7 @@ function LessonCard(props) {
     event.preventDefault();
     const data = {
       title: titleRef.current.value,
-      time: timeRef.current.value,
+      duration: durationRef.current.value,
     };
     console.log("∞° LessonCard submit: data=\n", data);
     console.log("∞° id=\n", id);
@@ -54,7 +54,7 @@ function LessonCard(props) {
       setPrompt("Please enter lesson");
       return;
     }
-    if (!(data.time) || 0 === data.time.length)
+    if (!(data.duration))
     {
       setPrompt("Please enter amount of time");
       return;
@@ -81,6 +81,18 @@ function LessonCard(props) {
     }
   };
 
+  const title = () => {
+    const retVal = props.title || "Lesson";
+    console.log("∞° retVal=\n", retVal);
+    return retVal;
+  }
+
+  const duration = () => {
+    const retVal = props.duration || "Amount of time";
+    console.log("∞° retVal=\n", retVal);
+    return retVal;
+  }
+
   return(
     <Card className="m-3">
       <form className="form" onSubmit={handleSubmit}>
@@ -89,15 +101,15 @@ function LessonCard(props) {
           ref={titleRef}
           name="LessonTitle"
           type="text"
-          placeholder="Lesson"
+          placeholder={title()}
         />
         {/* Lesson does not allow direct entry of total time */}
         <input
           disabled={true}
-          ref={timeRef}
-          name="lessonTime"
+          ref={durationRef}
+          name="lessonDuration"
           type="text"
-          placeholder="Amount of time"
+          placeholder={duration()}
         />
         <Card.Body>
         </Card.Body>
@@ -107,6 +119,18 @@ function LessonCard(props) {
           : <Button type="submit" >Save</Button>
         }
       </form>
+      {/* Save button is hidden if id is null or otherwise invalid */}
+      {/* or if start button functionality is not enabled         */}
+      {props.id && props.canStart
+        ? <Button onClick={deleteLesson}>Start</Button>
+        : ""
+      }
+      {/* Save button is hidden if id is null or otherwise invalid */}
+      {/* or if edit button functionality is not enabled         */}
+      {props.id && props.canEdit
+        ? <Button onClick={deleteLesson}>Edit</Button>
+        : ""
+      }
       {/* Save button is hidden if id is null or otherwise invalid */}
       {/* or if delete button functionality is not enabled         */}
       {props.id && props.canDelete
