@@ -31,7 +31,7 @@ class App extends Component {
   // Update lesson information on current lesson
   setStateLesson = (id, title) => {
     this.setState({
-      lessonID: id,
+      lessonId: id,
       lessonTitle: title
     });
   };
@@ -75,38 +75,49 @@ class App extends Component {
             <Route exact path="/signup">
               <Signup />
             </Route>
-            <Route exact path="/home">
-              <HomePage
-                lessonTitle={this.state.lessonTitle}
-                lessonId={this.state.lessonId}
-                topicsArray={this.state.topicsArray}
-                setStateLesson={this.setStateLesson}
-              />
-            </Route>
-            <Route exact path="/addlesson">
-              <AddLesson
-                lessonTitle={this.state.lessonTitle}
-                lessonId={this.state.lessonId}
-                topicsArray={this.state.topicsArray}
-                setStateLesson={this.setStateLesson}
-              />
-            </Route>
-            <Route exact path="/addtopic">
-              <AddTopic
-                lessonTitle={this.state.lessonTitle}
-                lessonId={this.state.lessonId}
-                topicsArray={this.state.topicsArray}
-                setStateLesson={this.setStateLesson}
-              />
-            </Route>
-            <Route exact path="/livelesson">
-              <LiveLesson
-                lessonTitle={this.state.lessonTitle}
-                lessonId={this.state.lessonId}
-                topicsArray={this.state.topicsArray}
-                setStateLesson={this.setStateLesson}
-              />
-            </Route>
+            {/* Note use of explicit render to enable props.history */}
+            <Route exact path="/home"
+              render={props => (
+                <HomePage
+                  lessonTitle={this.state.lessonTitle}
+                  lessonId={this.state.lessonId}
+                  topicsArray={this.state.topicsArray}
+                  setStateLesson={this.setStateLesson}
+                />
+              )}
+            />
+            <Route exact path="/addlesson"
+              render={props => (
+                <AddLesson
+                  lessonTitle={this.state.lessonTitle}
+                  lessonId={this.state.lessonId}
+                  topicsArray={this.state.topicsArray}
+                  setStateLesson={this.setStateLesson}
+                  {...props}
+                />
+              )}
+            />
+            <Route exact path="/addtopic"
+              render={props => (
+                <AddTopic
+                  lessonTitle={this.state.lessonTitle}
+                  lessonId={this.state.lessonId}
+                  topicsArray={this.state.topicsArray}
+                  setStateLesson={this.setStateLesson}
+                  {...props}
+                />
+              )}
+            />
+            <Route exact path="/livelesson"
+              render={props => (
+                <LiveLesson
+                  lessonTitle={this.state.lessonTitle}
+                  lessonId={this.state.lessonId}
+                  topicsArray={this.state.topicsArray}
+                  setStateLesson={this.setStateLesson}
+                  {...props}
+                />
+              )} />
             <Route>
               <NoMatch />
             </Route>

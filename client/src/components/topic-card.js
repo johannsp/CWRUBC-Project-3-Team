@@ -46,7 +46,7 @@ function TopicCard(props) {
       LessonId: props.lessonId 
     };
     console.log("∞° TopicCard submit: data=\n", data);
-    console.log("∞° id=\n", id);
+    console.log("∞° topic  id=\n", id);
     // Make sure each value to store is valid and not empty
     if (!(data.title) || 0 === data.title.length)
     {
@@ -55,7 +55,7 @@ function TopicCard(props) {
     }
     if (!(data.duration))
     {
-      setPrompt("Please enter amount of time");
+      setPrompt("Please enter how many minutes");
       return;
     }
     if (!(data.notes) || 0 === data.notes.length)
@@ -67,7 +67,8 @@ function TopicCard(props) {
     // otherwise update using the existing id value
     if (id) {
       API.updateTopicByID(id,data)
-        .then( ( {id} ) => {
+        .then( (res) => {
+          console.log("∞° res=\n", res);
           setId(id);  // Resave in state hook in case we need it
         })
         .catch( (error) => {
@@ -92,7 +93,7 @@ function TopicCard(props) {
   }
 
   const duration = () => {
-    const retVal = props.duration || "Amount of time";
+    const retVal = props.duration || "How many minutes";
     console.log("∞° retVal=\n", retVal);
     return retVal;
   }

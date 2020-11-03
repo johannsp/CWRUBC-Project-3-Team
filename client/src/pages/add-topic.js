@@ -99,7 +99,7 @@ class AddTopic extends React.Component {
       <Container className="d-flex min-vh-100 justify-content-center align-items-center">
         <Col>
           <Jumbotron>
-            <h3>Lesson ({this.props.lessonID}): {this.props.lessonTitle}</h3>
+            <h3>Lesson ({this.props.lessonId}): {this.props.lessonTitle}</h3>
             <h3>Add Topic</h3>
             <TopicCard
               lessonId={this.props.lessonId}
