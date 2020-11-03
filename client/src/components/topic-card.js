@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Button, Card } from 'react-bootstrap';
 import API from "../utils/databaseTopicAPI";
 
@@ -21,20 +22,49 @@ import API from "../utils/databaseTopicAPI";
 function TopicCard(props) {
   const [id, setId] = useState(props.id);
   const [prompt, setPrompt] = useState(""); // Inform user of issues
+  const [viewOnly, setViewOnly] = useState(props.viewOnly);
   const titleRef = useRef(props.title);
   const durationRef = useRef(props.duration);
   const notesRef = useRef(props.notes);
+  const history = useHistory();
 
   const deleteTopic = () => {
     if (id) {
-      API.deleteTopicByID(id)
-        .then( ( {id} ) => {
+      API.deleteTopicById(id)
+        .then( (res) => {
           setId(id);  // Resave in state hook in case we need it
+          // Intentionally pass null for title as a trigger to filter
+          // this topic out thus deleting it from state management
+          props.setStateTopic(
+            id,
+            null,
+            0,
+            ""
+          );
+          props.setStateLessonTime();
         })
         .catch( (error) => {
           console.log(error);
         });
     }
+  };
+
+  const startLesson = () => {
+    history.push("/livelesson");
+    return true;
+  };
+
+  const editTopic = () => {
+    setViewOnly(false);
+    // Reset cleared values from props
+    titleRef.current.value = props.title;
+    durationRef.current.value = props.duration;
+    notesRef.current.value = props.notes;
+    console.log("∞° props.lessonId=\n", props.lessonId);
+    console.log("∞° titleRef.current.value=\n", titleRef.current.value);
+    console.log("∞° durationRef.current.value=\n", durationRef.current.value);
+    console.log("∞° notesRef.current.value=\n", notesRef.current.value);
+    return true;
   };
 
   const handleSubmit = event => {
@@ -66,10 +96,20 @@ function TopicCard(props) {
     // When adding a new topic props.id should be null
     // otherwise update using the existing id value
     if (id) {
-      API.updateTopicByID(id,data)
+      API.updateTopicById(id,data)
         .then( (res) => {
-          console.log("∞° res=\n", res);
           setId(id);  // Resave in state hook in case we need it
+          // Sequelize update does not return the updated object,
+          // so just store the update values from React to the
+          // state management in App component.
+          props.setStateTopic(
+            id,
+            titleRef.current.value,
+            durationRef.current.value,
+            notesRef.current.value
+          );
+          props.setStateLessonTime();
+          setViewOnly(true);
         })
         .catch( (error) => {
           console.log(error);
@@ -77,8 +117,19 @@ function TopicCard(props) {
     }
     else {
       API.saveTopic(data)
-        .then( ( {id} ) => {
-          setId(id);  // Save in state hook in case we need it
+        .then( (res) => {
+          console.log("∞° saveTopic res=\n", res);
+          console.log("∞° props=\n", props);
+          props.setStateTopic(
+            res.data.id,
+            res.data.title,
+            res.data.duration,
+            res.data.notes
+          );
+          titleRef.current.value = "";
+          durationRef.current.value = 0;
+          notesRef.current.value = "";
+          props.setStateLessonTime();
         })
         .catch( (error) => {
           console.log(error);
@@ -87,60 +138,71 @@ function TopicCard(props) {
   };
 
   const title = () => {
-    const retVal = props.title || "Lesson";
-    console.log("∞° retVal=\n", retVal);
+    const retVal = props.title || "Topic";
     return retVal;
   }
 
   const duration = () => {
     const retVal = props.duration || "How many minutes";
-    console.log("∞° retVal=\n", retVal);
     return retVal;
   }
 
   const notes = () => {
     const retVal = props.notes || "Notes";
-    console.log("∞° retVal=\n", retVal);
     return retVal;
   }
 
   return(
     <Card className="m-3">
       <form className="form" onSubmit={handleSubmit}>
+        {id
+          ? <span>Id: {id}</span>
+          : ""
+        }
         <input
-          disabled={props.viewOnly}
+          disabled={viewOnly}
           ref={titleRef}
-          name="topicTitle"
           type="text"
           placeholder={title()}
         />
         <input
-          disabled={props.viewOnly}
+          disabled={viewOnly}
           ref={durationRef}
-          name="topicDuration"
           type="text"
           placeholder={duration()}
         />
         <Card.Body>
           <textarea
-            disabled={props.viewOnly}
+            disabled={viewOnly}
             ref={notesRef}
-            name="topicNotes"
             placeholder={notes()}
           />
         </Card.Body>
         {/* Save button is hidden when data input is view only */}
-        {props.viewOnly
+        {viewOnly
           ? ""
           : <Button type="submit" >Save</Button>
         }
+        {/* Start button is hidden if id is null or otherwise invalid */}
+        {/* or if start button functionality is not enabled         */}
+        {props.id && props.canStart
+          ? <Button onClick={startLesson}>Start</Button>
+          : ""
+        }
+        {/* Edit button is hidden if id is null or otherwise invalid */}
+        {/* or if edit button functionality is not enabled         */}
+        {/* or if not currently in view mode anymore               */}
+        {props.id && props.canEdit && viewOnly
+          ? <Button onClick={editTopic}>Edit</Button>
+          : ""
+        }
+        {/* Delete button is hidden if id is null or otherwise invalid */}
+        {/* or if delete button functionality is not enabled         */}
+        {props.id && props.canDelete
+          ? <Button onClick={deleteTopic}>Delete</Button>
+          : ""
+        }
       </form>
-      {/* Save button is hidden if id is null or otherwise invalid */}
-      {/* or if delete button functionality is not enabled         */}
-      {props.id && props.canDelete
-        ? <Button onClick={deleteTopic}>Delete</Button>
-        : ""
-      }
       <p>{prompt}</p>
     </Card>
   )

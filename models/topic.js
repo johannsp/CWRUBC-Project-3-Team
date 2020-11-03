@@ -14,7 +14,6 @@ module.exports = function(sequelize, DataTypes) {
 
   Topic.associate = function(models) {
     // A Topic should belong to a Lesson
-    // There are not firm foreign key constraints since multiple join points are possible
     Topic.belongsTo(models.Lesson, {
       foreignKey: {
         allowNull: false

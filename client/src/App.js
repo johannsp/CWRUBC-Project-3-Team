@@ -23,6 +23,7 @@ class App extends Component {
       acc += cur.duration;
       return acc;
     }, 0);
+    console.log("∞° totalTime=\n", totalTime);
     this.setState({
       lessonDuration: totalTime
     });
@@ -49,19 +50,27 @@ class App extends Component {
     this.setState({
       topicsArray: updateTopics
     });
+    console.log("∞° A setStateTopics(), topicsArray=\n", this.state.topicsArray);
   };
 
   // Update one topic by id value within current lesson
+  // or if title is null delete that row by filtering it out
   setStateTopic = (id, title, duration, notes) => {
-    const idStr = id.toString();
-    const updateTopics = this.state.topicsArray;
-    updateTopics[idStr].id = id;
-    updateTopics[idStr].title = title;
-    updateTopics[idStr].duration = duration;
-    updateTopics[idStr].notes = notes;
+    const updateTopics = title
+      ? this.state.topicsArray
+      : this.state.topicsArray.filter((id_del) => id !== id_del); 
+    if (title) {
+      const idStr = id.toString();
+      updateTopics[idStr] = {};
+      updateTopics[idStr].id = id;
+      updateTopics[idStr].title = title;
+      updateTopics[idStr].duration = duration;
+      updateTopics[idStr].notes = notes;
+    }
     this.setState({
       topicsArray: updateTopics
     });
+    console.log("∞° A setStateTopic(), topicsArray=\n", this.state.topicsArray);
   };
 
   render() {
@@ -79,8 +88,9 @@ class App extends Component {
             <Route exact path="/home"
               render={props => (
                 <HomePage
-                  lessonTitle={this.state.lessonTitle}
                   lessonId={this.state.lessonId}
+                  lessonTitle={this.state.lessonTitle}
+                  lessonDuration={this.state.lessonDuration}
                   topicsArray={this.state.topicsArray}
                   setStateLesson={this.setStateLesson}
                 />
@@ -89,8 +99,9 @@ class App extends Component {
             <Route exact path="/addlesson"
               render={props => (
                 <AddLesson
-                  lessonTitle={this.state.lessonTitle}
                   lessonId={this.state.lessonId}
+                  lessonTitle={this.state.lessonTitle}
+                  lessonDuration={this.state.lessonDuration}
                   topicsArray={this.state.topicsArray}
                   setStateLesson={this.setStateLesson}
                   {...props}
@@ -100,10 +111,14 @@ class App extends Component {
             <Route exact path="/addtopic"
               render={props => (
                 <AddTopic
-                  lessonTitle={this.state.lessonTitle}
                   lessonId={this.state.lessonId}
+                  lessonTitle={this.state.lessonTitle}
+                  lessonDuration={this.state.lessonDuration}
                   topicsArray={this.state.topicsArray}
+                  setStateLessonTime={this.setStateLessonTime}
                   setStateLesson={this.setStateLesson}
+                  setStateTopics={this.setStateTopics}
+                  setStateTopic={this.setStateTopic}
                   {...props}
                 />
               )}
@@ -111,8 +126,9 @@ class App extends Component {
             <Route exact path="/livelesson"
               render={props => (
                 <LiveLesson
-                  lessonTitle={this.state.lessonTitle}
                   lessonId={this.state.lessonId}
+                  lessonTitle={this.state.lessonTitle}
+                  lessonDuration={this.state.lessonDuration}
                   topicsArray={this.state.topicsArray}
                   setStateLesson={this.setStateLesson}
                   {...props}

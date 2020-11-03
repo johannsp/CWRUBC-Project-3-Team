@@ -11,10 +11,10 @@ export default {
   saveLesson: function(data) {
     return axios.post("/api/lesson", data);
   },
-  updateLessonByID: function(id, data) {
+  updateLessonById: function(id, data) {
     return axios.put(`/api/lesson/${id}`, data);
   },
-  deleteLessonByID: function(id) {
+  deleteLessonById: function(id) {
     return axios.delete(`/api/lesson/${id}`);
   }
 };
