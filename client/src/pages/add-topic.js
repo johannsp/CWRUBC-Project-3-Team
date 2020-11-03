@@ -11,45 +11,65 @@ import API from "../utils/databaseTopicAPI";
 ** }}} */
 
 class AddTopic extends React.Component {
-  // Setting the component's initial state
-  state = {
-    topicTitle: '',
-    topicNotes: ''
-  };
+  /* {{{ **
+  ** // Setting the component's initial state
+  ** state = {
+  **   topicTitle: '',
+  **   topicNotes: ''
+  ** };
+  ** }}} */
 
-  handleInputChange = event => {
-    // Getting the value and name of the input which triggered the change
-    let value = event.target.value;
-    const name = event.target.name;
-
-    // Updating the input's state
-    this.setState({
-      [name]: value
-    });
-  };
-
-  handleFormSubmit = event => {
-    // Preventing the default behavior of the form submit (which is to refresh the page)
-    event.preventDefault();
-
-    // Store the topic title
-    const data = {
-      title: this.state.topicTitle
-    };
-    API.saveTopic(data)
-      .then( () => {
-        this.setState({
-          topicTitle: "",
-        });
-      })
-      .catch( (error) => {
-        console.log(error);
-      });
-  };
+  /* {{{ **
+  ** handleInputChange = event => {
+  **   // Getting the value and name of the input which triggered the change
+  **   let value = event.target.value;
+  **   const name = event.target.name;
+  ** 
+  **   // Updating the input's state
+  **   this.setState({
+  **     [name]: value
+  **   });
+  ** };
+  ** 
+  ** handleFormSubmit = event => {
+  **   // Preventing the default behavior of the form submit (which is to refresh the page)
+  **   event.preventDefault();
+  ** 
+  **   // Store the topic title
+  **   const data = {
+  **     title: this.state.topicTitle
+  **   };
+  **   API.saveTopic(data)
+  **     .then( () => {
+  **       this.setState({
+  **         topicTitle: "",
+  **       });
+  **     })
+  **     .catch( (error) => {
+  **       console.log(error);
+  **     });
+  ** };
+  ** }}} */
 
   /* {{{ **
   ** handleChange = (event) => {};
   ** }}} */
+
+  componentDidMount() {
+    this.loadTopicsOnLessonPlan();
+  }
+
+  loadTopicsOnLessonPlan = () => {
+    API.getAllTopicsByLessonId(this.props.lessonId)
+      .then(res => {
+        console.log("∞° res=\n", res);
+        // Store raw array data into App state management
+        this.props.setStateTopics(res.data);
+        // Store the total duration for all topics in this lesson
+        this.props.setStateLessonTime();
+      })
+      .catch(err => console.log(err));
+  };
 
   render() {
     /* {{{ **
@@ -99,18 +119,42 @@ class AddTopic extends React.Component {
       <Container className="d-flex min-vh-100 justify-content-center align-items-center">
         <Col>
           <Jumbotron>
-            <h3>Lesson ({this.props.lessonID}): {this.props.lessonTitle}</h3>
+            <h3>Lesson ({this.props.lessonId}): {this.props.lessonTitle}</h3>
+            <h3>{this.props.lessonDuration} minutes</h3>
             <h3>Add Topic</h3>
             <TopicCard
               lessonId={this.props.lessonId}
-              setLessonState={this.props.setLessonState}
+              setStateLesson={this.props.setStateLesson}
+              setStateLessonTime={this.props.setStateLessonTime}
+              setStateTopic={this.props.setStateTopic}
               viewOnly={false}
+              canEdit={false}
               canDelete={true}
               id={null}
-              name=""
+              title=""
               duration={0}
               notes=""
             />
+            {this.props.topicsArray.map((topic) => {
+              console.log("∞° topic=\n", topic);
+              console.log("∞° topic.title=\n", topic.title);
+              return (
+                <TopicCard
+                  lessonId={this.props.lessonId}
+                  setStateLesson={this.props.setStateLesson}
+                  setStateLessonTime={this.props.setStateLessonTime}
+                  setStateTopic={this.props.setStateTopic}
+                  viewOnly={true}
+                  canEdit={true}
+                  canDelete={true}
+                  id={topic.id}
+                  key={topic.id}
+                  title={topic.title}
+                  duration={topic.duration}
+                  notes={topic.notes}
+                />
+              );
+            })}
           </Jumbotron>
         </Col>
       </Container>

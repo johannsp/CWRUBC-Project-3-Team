@@ -4,9 +4,23 @@ const db = require("../models");
 // Defining methods here for the ../routes/api/dbTopic.js
 module.exports = {
   findAll: function(req, res) {
-    ///include: [db.Post] if doing a left join
+    ///include: [db.Lesson] if doing a left join
     db.Topic
-      .findAll({})
+      .findAll({
+        include: [db.Lesson]
+      })
+      .then(dbTopic => res.json(dbTopic))
+      .catch(err => res.status(422).json(err));
+  },
+  findAllByLessonId: function(req, res) {
+    ///include: [db.Lesson] if doing a left join
+    db.Topic
+      .findAll({
+        include: [db.Lesson],
+        where: {
+          LessonId: req.params.lessonid
+        }
+      })
       .then(dbTopic => res.json(dbTopic))
       .catch(err => res.status(422).json(err));
   },

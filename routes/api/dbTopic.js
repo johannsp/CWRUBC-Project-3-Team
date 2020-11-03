@@ -12,4 +12,8 @@ router.route("/:id")
   .put(topicController.update)
   .delete(topicController.remove);
 
+// Matches with "/api/topic/lessonid/:lessonid"
+router.route("/lessonid/:lessonid")
+  .get(topicController.findAllByLessonId)
+
 module.exports = router;

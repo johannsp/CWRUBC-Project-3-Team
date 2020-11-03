@@ -1,6 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Container, Button, Col, Jumbotron } from "react-bootstrap";
+/* {{{ **
+** import { Link } from "react-router-dom";
+** }}} */
+import { Container, Col, Jumbotron } from "react-bootstrap";
 import API from "../utils/databaseLessonAPI";
 
 /* {{{ **
@@ -55,11 +57,10 @@ class AddLesson extends React.Component {
       title: this.state.lessonTitle
     };
     API.saveLesson(data)
-      .then( ( {id} ) => {
-        this.props.setStateLesson({
-          lessonId: id,
-          lessonTitle: this.state.lessonTitle
-        });
+      .then( (res) => {
+        this.props.setStateLesson(res.data.id, res.data.title);
+        console.log("∞° this.props=\n", this.props);
+        this.props.history.push("/addtopic");
       })
       .catch( (error) => {
         console.log(error);
@@ -84,6 +85,11 @@ class AddLesson extends React.Component {
     **   })}
     ** </Jumbotron>
     ** }}} */
+            /* {{{ **
+            ** <Link to="/addtopic">
+            **   <Button variant="secondary">Add Topic</Button>
+            ** </Link>
+            ** }}} */
     return (
       <Container className="d-flex min-vh-100 justify-content-center align-items-center">
         <Col>
@@ -99,14 +105,10 @@ class AddLesson extends React.Component {
               />
               <button onClick={this.handleFormSubmit}>Save</button>
             </form>
-            <Link to="/addtopic">
-              <Button variant="secondary">Add Topic</Button>
-            </Link>
           </Jumbotron>
         </Col>
       </Container>
     );
   }
 }
-
 export default AddLesson;
