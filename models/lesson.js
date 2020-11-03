@@ -1,7 +1,10 @@
 module.exports = function(sequelize, DataTypes) {
   const Lesson = sequelize.define("Lesson", {
     title: DataTypes.STRING,
-    time: DataTypes.TIME,
+    time: {
+      type: DataTypes.TIME,
+      defaultValue: "0:00:00"
+    }
   });
 
   Lesson.associate = function(models) {

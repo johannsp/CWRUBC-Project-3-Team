@@ -1,10 +1,18 @@
-//Under construction
-
-import React, { useState } from "react";
-import { Container, Form, Button, Col, Jumbotron } from "react-bootstrap";
+import React from "react";
+import { Link } from "react-router-dom";
+import { Container, Button, Col, Jumbotron } from "react-bootstrap";
 import TopicCard from "../components/topic-card";
+import API from "../utils/databaseLessonAPI";
+
+/* {{{ **
+** import React, { useState } from "react";
+** import { Container, Form, Button, Col, Jumbotron } from "react-bootstrap";
+** import TopicCard from "../components/topic-card";
+** import API from "../utils/databaseLessonAPI";
+** }}} */
 
 class AddLesson extends React.Component {
+  // Setting the component's initial state
   state = {
     sampleData: [
       {
@@ -18,24 +26,76 @@ class AddLesson extends React.Component {
         topicNotes: "Wow look here's more sample notes for this other topic!"
       },
     ],
+    lessonTitle: '',
+    savedID: -1
   };
 
-  handleChange = (event) => {};
+  handleInputChange = event => {
+    // Getting the value and name of the input which triggered the change
+    let value = event.target.value;
+    const name = event.target.name;
+
+    // Updating the input's state
+    this.setState({
+      [name]: value
+    });
+  };
+
+  handleFormSubmit = event => {
+    // Preventing the default behavior of the form submit (which is to refresh the page)
+    event.preventDefault();
+
+    // Store the lesson title
+    const data = {
+      title: this.state.lessonTitle
+    };
+    API.saveLesson(data)
+      .then( ( {id} ) => {
+        this.setState({
+          lessonTitle: "",
+        });
+      })
+      .catch( (error) => {
+        console.log(error);
+      });
+  };
+
+  /* {{{ **
+  ** handleChange = (event) => {};
+  ** }}} */
 
   render() {
+    /* {{{ **
+    ** <Jumbotron>
+    **   {this.state.sampleData.map((lessonTopic) => {
+    **     return (
+    **       <TopicCard
+    **         title={lessonTopic.topicTitle}
+    **         time={lessonTopic.topicTime}
+    **         notes={lessonTopic.topicNotes}
+    **       />
+    **     );
+    **   })}
+    ** </Jumbotron>
+    ** }}} */
     return (
       <Container className="d-flex min-vh-100 justify-content-center align-items-center">
         <Col>
           <Jumbotron>
-            {this.state.sampleData.map((lessonTopic) => {
-              return (
-                <TopicCard
-                  title={lessonTopic.topicTitle}
-                  time={lessonTopic.topicTime}
-                  notes={lessonTopic.topicNotes}
-                />
-              );
-            })}
+            <h3>Add Lesson</h3>
+            <form className="form">
+              <input
+                value={this.state.lessonTitle}
+                name="lessonTitle"
+                onChange={this.handleInputChange}
+                type="text"
+                placeholder="Lesson Title"
+              />
+              <button onClick={this.handleFormSubmit}>Save</button>
+            </form>
+            <Link to="/addtopic">
+              <Button variant="secondary">Add Topic</Button>
+            </Link>
           </Jumbotron>
         </Col>
       </Container>
