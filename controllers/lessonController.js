@@ -4,7 +4,6 @@ const db = require("../models");
 // Defining methods here for the ../routes/api/dbLesson.js
 module.exports = {
   findAll: function(req, res) {
-    ///include: [db.Post] if doing a left join
     db.Lesson
       .findAll({})
       .then(dbLesson => res.json(dbLesson))

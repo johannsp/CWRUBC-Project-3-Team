@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Card } from 'react-bootstrap';
+import { Button, Card, Col, Row } from 'react-bootstrap';
 import API from "../utils/databaseTopicAPI";
 
 /* {{{ **
@@ -30,9 +30,11 @@ function TopicCard(props) {
 
   const deleteTopic = () => {
     if (id) {
+      console.log("∞° deleteTopic...");
       API.deleteTopicById(id)
         .then( (res) => {
           setId(id);  // Resave in state hook in case we need it
+          console.log("∞° id=\n", id);
           // Intentionally pass null for title as a trigger to filter
           // this topic out thus deleting it from state management
           props.setStateTopic(
@@ -155,53 +157,85 @@ function TopicCard(props) {
   return(
     <Card className="m-3">
       <form className="form" onSubmit={handleSubmit}>
-        {id
-          ? <span>Id: {id}</span>
-          : ""
-        }
-        <input
-          disabled={viewOnly}
-          ref={titleRef}
-          type="text"
-          placeholder={title()}
-        />
-        <input
-          disabled={viewOnly}
-          ref={durationRef}
-          type="text"
-          placeholder={duration()}
-        />
-        <Card.Body>
-          <textarea
+        <Row>
+          <Col>
+          {id
+            ? <span>Id: {id}</span>
+            : ""
+          }
+          <input
             disabled={viewOnly}
-            ref={notesRef}
-            placeholder={notes()}
+            ref={titleRef}
+            type="text"
+            placeholder={title()}
           />
-        </Card.Body>
-        {/* Save button is hidden when data input is view only */}
-        {viewOnly
-          ? ""
-          : <Button type="submit" >Save</Button>
-        }
-        {/* Start button is hidden if id is null or otherwise invalid */}
-        {/* or if start button functionality is not enabled         */}
-        {props.id && props.canStart
-          ? <Button onClick={startLesson}>Start</Button>
-          : ""
-        }
-        {/* Edit button is hidden if id is null or otherwise invalid */}
-        {/* or if edit button functionality is not enabled         */}
-        {/* or if not currently in view mode anymore               */}
-        {props.id && props.canEdit && viewOnly
-          ? <Button onClick={editTopic}>Edit</Button>
-          : ""
-        }
-        {/* Delete button is hidden if id is null or otherwise invalid */}
-        {/* or if delete button functionality is not enabled         */}
-        {props.id && props.canDelete
-          ? <Button onClick={deleteTopic}>Delete</Button>
-          : ""
-        }
+          <input
+            disabled={viewOnly}
+            ref={durationRef}
+            type="text"
+            placeholder={duration()}
+          />
+          <Card.Body>
+            <textarea
+              disabled={viewOnly}
+              ref={notesRef}
+              placeholder={notes()}
+            />
+          </Card.Body>
+          {/* Save button is hidden when data input is view only */}
+          {viewOnly
+            ? ""
+            : <Button variant="secondary" type="submit" >Save</Button>
+          }
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+          {/* Start button is hidden if id is null or otherwise invalid */}
+          {/* or if start button functionality is not enabled         */}
+          {props.id && props.canStart
+            ? <Button variant="secondary" onClick={startLesson}>Start</Button>
+            : ""
+          }
+          </Col>
+
+          <Col>
+          {/* Back button is hidden if id is null or otherwise invalid */}
+          {/* or if back button functionality is not enabled         */}
+          {props.id && props.showBack
+            ? <Button variant="secondary" onClick={startLesson}>Back</Button>
+            : ""
+          }
+          </Col>
+
+          <Col>
+          {/* Next button is hidden if id is null or otherwise invalid */}
+          {/* or if next button functionality is not enabled         */}
+          {props.id && props.showNext
+            ? <Button variant="secondary" onClick={startLesson}>Next</Button>
+            : ""
+          }
+          </Col>
+
+          <Col>
+          {/* Edit button is hidden if id is null or otherwise invalid */}
+          {/* or if edit button functionality is not enabled         */}
+          {/* or if not currently in view mode anymore               */}
+          {props.id && props.canEdit && viewOnly
+            ? <Button variant="secondary" onClick={editTopic}>Edit</Button>
+            : ""
+          }
+          </Col>
+
+          <Col>
+          {/* Delete button is hidden if id is null or otherwise invalid */}
+          {/* or if delete button functionality is not enabled         */}
+          {props.id && props.canDelete
+            ? <Button variant="secondary" onClick={deleteTopic}>Delete</Button>
+            : ""
+          }
+          </Col>
+        </Row>
       </form>
       <p>{prompt}</p>
     </Card>
