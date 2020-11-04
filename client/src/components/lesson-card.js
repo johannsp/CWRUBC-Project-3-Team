@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Card } from 'react-bootstrap';
+import { Button, Card, Col, Row } from 'react-bootstrap';
 import API from "../utils/databaseLessonAPI";
 
 /* {{{ **
@@ -33,8 +33,9 @@ function LessonCard(props) {
 
   const deleteLesson = () => {
     if (id) {
-      API.deleteLessonByID(id)
-        .then( ( {id} ) => {
+      API.deleteLessonById(id)
+        .then( (res) => {
+          console.log("∞° In deleteLessonById res=\n", res);
           setId(id);  // Resave in state hook in case we need it
         })
         .catch( (error) => {
@@ -75,9 +76,11 @@ function LessonCard(props) {
     // When adding a new lesson props.id should be null
     // otherwise update using the existing id value
     if (id) {
-      API.updateLessonByID(id,data)
-        .then( ( {id} ) => {
+      API.updateLessonById(id,data)
+        .then( (res) => {
+          console.log("∞° In updateLessonById res=\n", res);
           setId(id);  // Resave in state hook in case we need it
+          props.setStateLesson(data.id, data.title)
         })
         .catch( (error) => {
           console.log(error);
@@ -85,8 +88,10 @@ function LessonCard(props) {
     }
     else {
       API.saveLesson(data)
-        .then( ( {id} ) => {
+        .then( (res) => {
+          console.log("∞° In saveLesson res=\n", res);
           setId(id);  // Save in state hook in case we need it
+          props.setStateLesson(data.id, data.title)
         })
         .catch( (error) => {
           console.log(error);
@@ -129,28 +134,37 @@ function LessonCard(props) {
         {/* Save button is hidden when data input is view only */}
         {viewOnly
           ? ""
-          : <Button type="submit" >Save</Button>
+          : <Button variant="secondary" type="submit" >Save</Button>
         }
       </form>
-      {/* Start button is hidden if id is null or otherwise invalid */}
-      {/* or if start button functionality is not enabled         */}
-      {props.id && props.canStart
-        ? <Button onClick={startLesson}>Start</Button>
-        : ""
-      }
-      {/* Edit button is hidden if id is null or otherwise invalid */}
-      {/* or if edit button functionality is not enabled         */}
-      {/* or if not currently in view mode anymore               */}
-      {props.id && props.canEdit && viewOnly
-        ? <Button onClick={editLesson}>Edit</Button>
-        : ""
-      }
-      {/* Delete button is hidden if id is null or otherwise invalid */}
-      {/* or if delete button functionality is not enabled         */}
-      {props.id && props.canDelete
-        ? <Button onClick={deleteLesson}>Delete</Button>
-        : ""
-      }
+      <Row>
+        <Col>
+        {/* Start button is hidden if id is null or otherwise invalid */}
+        {/* or if start button functionality is not enabled         */}
+        {props.id && props.canStart
+          ? <Button variant="secondary" onClick={startLesson}>Start</Button>
+          : ""
+        }
+        </Col>
+
+        <Col>
+        {/* Edit button is hidden if id is null or otherwise invalid */}
+        {/* or if edit button functionality is not enabled         */}
+        {/* or if not currently in view mode anymore               */}
+        {props.id && props.canEdit && viewOnly
+          ? <Button variant="secondary" onClick={editLesson}>Edit</Button>
+          : ""
+        }
+        </Col>
+        <Col>
+        {/* Delete button is hidden if id is null or otherwise invalid */}
+        {/* or if delete button functionality is not enabled         */}
+        {props.id && props.canDelete
+          ? <Button variant="secondary" onClick={deleteLesson}>Delete</Button>
+          : ""
+        }
+        </Col>
+      </Row>
       <p>{prompt}</p>
     </Card>
   )

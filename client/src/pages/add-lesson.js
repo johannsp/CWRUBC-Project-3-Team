@@ -2,7 +2,8 @@ import React from "react";
 /* {{{ **
 ** import { Link } from "react-router-dom";
 ** }}} */
-import { Container, Col, Jumbotron } from "react-bootstrap";
+import { Container, Col, Row, Jumbotron } from "react-bootstrap";
+import ProgTitle from "../components/prog-title";
 import API from "../utils/databaseLessonAPI";
 
 /* {{{ **
@@ -34,7 +35,7 @@ import API from "../utils/databaseLessonAPI";
 class AddLesson extends React.Component {
   // Setting the component's initial state
   state = {
-    lessonTitle: '',
+    lessonTitle: ''
   };
 
   handleInputChange = event => {
@@ -71,6 +72,21 @@ class AddLesson extends React.Component {
   ** handleChange = (event) => {};
   ** }}} */
 
+  /* {{{ **
+  ** componentDidMount() {
+  **   this.loadLessonPlans();
+  ** }
+  ** 
+  ** loadLessonPlans = () => {
+  **   API.getAllLessons()
+  **     .then(res => {
+  **       console.log("∞° res=\n", res);
+  **       //this.props.setStateLesson(res.data.id, res.data.title);
+  **     })
+  **     .catch(err => console.log(err));
+  ** };
+  ** }}} */
+
   render() {
     /* {{{ **
     ** <Jumbotron>
@@ -90,23 +106,42 @@ class AddLesson extends React.Component {
             **   <Button variant="secondary">Add Topic</Button>
             ** </Link>
             ** }}} */
+            /* {{{ **
+            ** <h3>List of Lessons</h3>
+            ** {this.state.lessonData.map((lesson) => {
+            **   return (
+            **     <LessonCard
+            **       lessonId={this.props.lessonId}
+            **       setStateLesson={this.props.setStateLesson}
+            **       title={lesson.title}
+            **       time={lesson.time}
+            **       viewOnly={false}
+            **       canEdit={false}
+            **       canDelete={true}
+            **     />
+            **   );
+            ** })}
+            ** }}} */
     return (
       <Container className="d-flex min-vh-100 justify-content-center align-items-center">
-        <Col>
-          <Jumbotron>
-            <h3>Add Lesson</h3>
-            <form className="form">
-              <input
-                value={this.state.lessonTitle}
-                name="lessonTitle"
-                onChange={this.handleInputChange}
-                type="text"
-                placeholder="Lesson Title"
-              />
-              <button onClick={this.handleFormSubmit}>Save</button>
-            </form>
-          </Jumbotron>
-        </Col>
+        <Row>
+          <Col>
+            <Jumbotron>
+              <ProgTitle />
+              <h3>Add Lesson</h3>
+              <form className="form">
+                <input
+                  value={this.state.lessonTitle}
+                  name="lessonTitle"
+                  onChange={this.handleInputChange}
+                  type="text"
+                  placeholder="Lesson Title"
+                />
+                <button onClick={this.handleFormSubmit}>Save</button>
+              </form>
+            </Jumbotron>
+          </Col>
+        </Row>
       </Container>
     );
   }

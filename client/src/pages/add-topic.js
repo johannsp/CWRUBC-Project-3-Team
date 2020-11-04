@@ -1,5 +1,7 @@
 import React from "react";
-import { Container, Col, Jumbotron } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Container, Button, Col, Row, Jumbotron } from "react-bootstrap";
+import ProgTitle from "../components/prog-title";
 import TopicCard from "../components/topic-card";
 import API from "../utils/databaseTopicAPI";
 
@@ -117,46 +119,60 @@ class AddTopic extends React.Component {
     ** }}} */
     return (
       <Container className="d-flex min-vh-100 justify-content-center align-items-center">
-        <Col>
-          <Jumbotron>
-            <h3>Lesson ({this.props.lessonId}): {this.props.lessonTitle}</h3>
-            <h3>{this.props.lessonDuration} minutes</h3>
-            <h3>Add Topic</h3>
-            <TopicCard
-              lessonId={this.props.lessonId}
-              setStateLesson={this.props.setStateLesson}
-              setStateLessonTime={this.props.setStateLessonTime}
-              setStateTopic={this.props.setStateTopic}
-              viewOnly={false}
-              canEdit={false}
-              canDelete={true}
-              id={null}
-              title=""
-              duration={0}
-              notes=""
-            />
-            {this.props.topicsArray.map((topic) => {
-              console.log("∞° topic=\n", topic);
-              console.log("∞° topic.title=\n", topic.title);
-              return (
-                <TopicCard
-                  lessonId={this.props.lessonId}
-                  setStateLesson={this.props.setStateLesson}
-                  setStateLessonTime={this.props.setStateLessonTime}
-                  setStateTopic={this.props.setStateTopic}
-                  viewOnly={true}
-                  canEdit={true}
-                  canDelete={true}
-                  id={topic.id}
-                  key={topic.id}
-                  title={topic.title}
-                  duration={topic.duration}
-                  notes={topic.notes}
-                />
-              );
-            })}
-          </Jumbotron>
-        </Col>
+        <Row>
+          <Col>
+            <ProgTitle />
+            <Jumbotron>
+              <Link to="/home">
+                <Button variant="secondary">Home Page</Button>
+              </Link>
+              <br />
+              <br />
+              <br />
+              <h3>Lesson (Id:{this.props.lessonId}) {this.props.lessonTitle}</h3>
+              <h3>{this.props.lessonDuration} minutes</h3>
+              <h3>Add Topic</h3>
+              <TopicCard
+                lessonId={this.props.lessonId}
+                setStateLesson={this.props.setStateLesson}
+                setStateLessonTime={this.props.setStateLessonTime}
+                setStateTopic={this.props.setStateTopic}
+                viewOnly={false}
+                showBack={false}
+                showNext={false}
+                canEdit={false}
+                canDelete={true}
+                id={null}
+                title=""
+                duration={0}
+                notes=""
+              />
+              <h3>List of Topics</h3>
+              {this.props.topicsArray.map((topic) => {
+                console.log("∞° topic=\n", topic);
+                console.log("∞° topic.title=\n", topic.title);
+                return (
+                  <TopicCard
+                    lessonId={this.props.lessonId}
+                    setStateLesson={this.props.setStateLesson}
+                    setStateLessonTime={this.props.setStateLessonTime}
+                    setStateTopic={this.props.setStateTopic}
+                    viewOnly={true}
+                    showBack={false}
+                    showNext={false}
+                    canEdit={true}
+                    canDelete={true}
+                    id={topic.id}
+                    key={topic.id}
+                    title={topic.title}
+                    duration={topic.duration}
+                    notes={topic.notes}
+                  />
+                );
+              })}
+            </Jumbotron>
+          </Col>
+        </Row>
       </Container>
     );
   }

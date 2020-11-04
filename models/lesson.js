@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
 
   Lesson.associate = function(models) {
     // Associating Lesson with
-    // When an Album is deleted, also delete any associated Links
+    // When a Lesson is deleted, also delete any associated Links
     Lesson.hasMany(models.Topic, {
       onDelete: "cascade"
     });

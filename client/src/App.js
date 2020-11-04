@@ -8,6 +8,7 @@ import AddLesson from "./pages/add-lesson";
 import AddTopic from "./pages/add-topic";
 import LiveLesson from "./pages/live-lesson";
 import "./App.css";
+import API from "./utils/databaseLessonAPI";
 
 class App extends Component {
   state = {
@@ -20,13 +21,30 @@ class App extends Component {
   // Update total time duration in lessons based on all topics
   setStateLessonTime = () => {
     const totalTime = this.state.topicsArray.reduce((acc, cur) => {
-      acc += cur.duration;
+      // Negate and subtract to prevent conversion to string and concatenation
+      acc -= -1 * cur.duration;
       return acc;
     }, 0);
-    console.log("∞° totalTime=\n", totalTime);
     this.setState({
       lessonDuration: totalTime
     });
+    if (this.state.lessonId) {
+      const data = {
+        id: this.state.lessonId,
+        title: this.state.lessonTitle,
+        duration: totalTime
+      };
+      console.log("∞° this.state.lessonId=\n", this.state.lessonId);
+      console.log("∞° In setStateLessonTime data=\n", data);
+      API.updateLessonById(this.state.lessonId,data)
+        .then( (res) => {
+          console.log("∞° res=\n", res);
+          console.log("∞° res.data=\n", res.data);
+        })
+        .catch( (error) => {
+          console.log(error);
+        });
+    };
   };
 
   // Update lesson information on current lesson
@@ -56,9 +74,11 @@ class App extends Component {
   // Update one topic by id value within current lesson
   // or if title is null delete that row by filtering it out
   setStateTopic = (id, title, duration, notes) => {
+    console.log("∞° In setStateTopic title=\n", title);
+    console.log("∞° id=\n", id);
     const updateTopics = title
       ? this.state.topicsArray
-      : this.state.topicsArray.filter((id_del) => id !== id_del); 
+      : this.state.topicsArray.filter((topic) => id !== topic.id); 
     if (title) {
       const idStr = id.toString();
       updateTopics[idStr] = {};
@@ -93,6 +113,7 @@ class App extends Component {
                   lessonDuration={this.state.lessonDuration}
                   topicsArray={this.state.topicsArray}
                   setStateLesson={this.setStateLesson}
+                  {...props}
                 />
               )}
             />
