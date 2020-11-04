@@ -8,6 +8,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import authAPI from "../../utils/authAPI";
 
+
+
 function Login() {
   const [email, setEmail] = useState( "" );
   const [password, setPassword] = useState( "" );
@@ -33,12 +35,12 @@ function Login() {
     }
   };
 
-  return (
-    <Container fluid>
+  return ( 
+    <Container fluid className="d-flex min-vh-100 justify-content-center align-items-center">
       <Row>
-        <Col className="col-md-6 col-md-offset-3">
-          <Jumbotron>
-          <h2>Login Form</h2>
+        <Col lg={12}>
+          <Jumbotron className="text-center p-5">
+          <h2>Login</h2>
           <p>{prompt}</p>
           </Jumbotron>
 
