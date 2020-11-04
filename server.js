@@ -51,8 +51,12 @@ if (process.env.NODE_ENV === "production") {
 // Syncing our database and logging a message to the user upon success
 db.sequelize
   .sync({
-    force: true,
-    match: /_dev$/
+    /* {{{ **
+    ** // Drop database and all tables on each restart of server
+    ** force: true,
+    ** // but only in development account, not test or production
+    ** match: /_dev$/
+    ** }}} */
   })
   .then(() => {
     app.listen(PORT, () => {

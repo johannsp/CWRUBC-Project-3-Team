@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
-import { Button, Card } from 'react-bootstrap';
+import { useHistory } from "react-router-dom";
+import { Button, Card, Col, Row } from 'react-bootstrap';
 import API from "../utils/databaseLessonAPI";
 
 /* {{{ **
@@ -25,19 +26,44 @@ import API from "../utils/databaseLessonAPI";
 function LessonCard(props) {
   const [id, setId] = useState(props.id);
   const [prompt, setPrompt] = useState(""); // Inform user of issues
+  const [viewOnly, setViewOnly] = useState(props.viewOnly);
   const titleRef = useRef(props.title);
   const durationRef = useRef(props.duration);
+  const history = useHistory();
 
   const deleteLesson = () => {
     if (id) {
-      API.deleteLessonByID(id)
-        .then( ( {id} ) => {
+      API.deleteLessonById(id)
+        .then( (res) => {
+          console.log("∞° In deleteLessonById res=\n", res);
           setId(id);  // Resave in state hook in case we need it
         })
         .catch( (error) => {
           console.log(error);
         });
     }
+  };
+
+  const startLesson = () => {
+    history.push("/livelesson");
+    return true;
+  };
+
+  const reviseLessonPlan = () => {
+    console.log("∞° reviseLessonPlan...");
+    // Pass up props to select this lesson before visiting /addtopic
+    const id=props.id
+    const title=props.title
+    console.log("∞° id=\n", id);
+    console.log("∞° title=\n", title);
+    props.setStateLesson(id, title)
+    history.push("/addtopic");
+    return true;
+  };
+
+  const editLesson = () => {
+    setViewOnly(false);
+    return true;
   };
 
   const handleSubmit = event => {
@@ -62,9 +88,11 @@ function LessonCard(props) {
     // When adding a new lesson props.id should be null
     // otherwise update using the existing id value
     if (id) {
-      API.updateLessonByID(id,data)
-        .then( ( {id} ) => {
+      API.updateLessonById(id,data)
+        .then( (res) => {
+          console.log("∞° In updateLessonById res=\n", res);
           setId(id);  // Resave in state hook in case we need it
+          props.setStateLesson(data.id, data.title)
         })
         .catch( (error) => {
           console.log(error);
@@ -72,8 +100,10 @@ function LessonCard(props) {
     }
     else {
       API.saveLesson(data)
-        .then( ( {id} ) => {
+        .then( (res) => {
+          console.log("∞° In saveLesson res=\n", res);
           setId(id);  // Save in state hook in case we need it
+          props.setStateLesson(data.id, data.title)
         })
         .catch( (error) => {
           console.log(error);
@@ -83,21 +113,28 @@ function LessonCard(props) {
 
   const title = () => {
     const retVal = props.title || "Lesson";
-    console.log("∞° retVal=\n", retVal);
     return retVal;
   }
 
   const duration = () => {
-    const retVal = props.duration || "Amount of time";
-    console.log("∞° retVal=\n", retVal);
+    // Note, duration default to 0 so must explicitly check for bad iffy values
+    const retVal = typeof props.duration !== "undefined" && props.duration !== null
+      ? props.duration
+      : "Amount of time";
     return retVal;
   }
+
+      /* {{{ **
+      ** <p>props.id={props.id}</p>
+      ** <p>props.title={props.title}</p>
+      ** <p>props.duration={props.duration}</p>
+      ** }}} */
 
   return(
     <Card className="m-3">
       <form className="form" onSubmit={handleSubmit}>
         <input
-          disabled={props.viewOnly}
+          disabled={viewOnly}
           ref={titleRef}
           name="LessonTitle"
           type="text"
@@ -114,29 +151,51 @@ function LessonCard(props) {
         <Card.Body>
         </Card.Body>
         {/* Save button is hidden when data input is view only */}
-        {props.viewOnly
+        {viewOnly
           ? ""
-          : <Button type="submit" >Save</Button>
+          : <Button variant="secondary" type="submit" >Save</Button>
         }
       </form>
-      {/* Save button is hidden if id is null or otherwise invalid */}
-      {/* or if start button functionality is not enabled         */}
-      {props.id && props.canStart
-        ? <Button onClick={deleteLesson}>Start</Button>
-        : ""
-      }
-      {/* Save button is hidden if id is null or otherwise invalid */}
-      {/* or if edit button functionality is not enabled         */}
-      {props.id && props.canEdit
-        ? <Button onClick={deleteLesson}>Edit</Button>
-        : ""
-      }
-      {/* Save button is hidden if id is null or otherwise invalid */}
-      {/* or if delete button functionality is not enabled         */}
-      {props.id && props.canDelete
-        ? <Button onClick={deleteLesson}>Delete</Button>
-        : ""
-      }
+      <Row>
+        <Col>
+        {/* Edit button is hidden if id is null or otherwise invalid */}
+        {/* or if edit button functionality is not enabled         */}
+        {/* or if not currently in view mode anymore               */}
+        {props.id && props.canEdit && viewOnly
+          ? <Button variant="secondary" onClick={editLesson}>Edit</Button>
+          : ""
+        }
+        </Col>
+
+        <Col>
+        {/* Delete button is hidden if id is null or otherwise invalid */}
+        {/* or if delete button functionality is not enabled         */}
+        {props.id && props.canDelete
+          ? <Button variant="secondary" onClick={deleteLesson}>Delete</Button>
+          : ""
+        }
+        </Col>
+      </Row>
+
+      <Row>
+        <Col>
+        {/* Start button is hidden if id is null or otherwise invalid */}
+        {/* or if start button functionality is not enabled         */}
+        {props.id && props.canStart
+          ? <Button variant="secondary" onClick={startLesson}>Start</Button>
+          : ""
+        }
+        </Col>
+
+        <Col>
+        {/* Revise button is hidden if id is null or otherwise invalid */}
+        {/* or if edit button functionality is not enabled         */}
+        {props.id && props.canRevise
+          ? <Button variant="secondary" onClick={reviseLessonPlan}>Revise Lesson Plan</Button>
+          : ""
+        }
+        </Col>
+      </Row>
       <p>{prompt}</p>
     </Card>
   )
