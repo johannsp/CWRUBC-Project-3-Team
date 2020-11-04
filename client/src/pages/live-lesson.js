@@ -51,6 +51,7 @@ class LiveLesson extends React.Component {
                 setStateLessonTime={this.props.setStateLessonTime}
                 viewOnly={true}
                 canStart={true}
+                canRevise={false}
                 canEdit={false}
                 canDelete={false}
                 id={this.props.lessonId}

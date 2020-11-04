@@ -1,6 +1,5 @@
-import React, { useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { Col, Row, Jumbotron } from "react-bootstrap";
+import React from "react";
+import { Jumbotron } from "react-bootstrap";
 
     /* {{{ **
     ** <Row>

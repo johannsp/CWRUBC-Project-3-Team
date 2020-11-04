@@ -49,17 +49,24 @@ class App extends Component {
 
   // Update lesson information on current lesson
   setStateLesson = (id, title) => {
+    console.log("∞° In setStateLesson...");
+    console.log("∞° id=\n", id);
+    console.log("∞° title=\n", title);
     this.setState({
       lessonId: id,
       lessonTitle: title
     });
+    console.log("∞° this.state.lessonId=\n", this.state.lessonId);
+    console.log("∞° this.state.lessonTitle=\n", this.state.lessonTitle);
   };
 
   // Populate topics information for current lesson
   setStateTopics = (rawTopicsArray) => {
+    console.log("∞° In setStateTopics rawTopicsArray=\n", rawTopicsArray);
     const updateTopics = [];
     rawTopicsArray.forEach((topic, index) => {
       const idStr = topic.id.toString();
+      updateTopics[idStr] = {};
       updateTopics[idStr].id = topic.id;
       updateTopics[idStr].title = topic.title;
       updateTopics[idStr].duration = topic.duration;

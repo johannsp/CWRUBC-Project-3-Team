@@ -62,6 +62,8 @@ class AddTopic extends React.Component {
   }
 
   loadTopicsOnLessonPlan = () => {
+    console.log("∞° loadTopicsOnLessonPlan...");
+    console.log("∞° this.props.lessonId=\n", this.props.lessonId);
     API.getAllTopicsByLessonId(this.props.lessonId)
       .then(res => {
         console.log("∞° res=\n", res);
@@ -71,6 +73,7 @@ class AddTopic extends React.Component {
         this.props.setStateLessonTime();
       })
       .catch(err => console.log(err));
+    console.log("∞° exiting loadTopicsOnLessonPlan...");
   };
 
   render() {

@@ -59,6 +59,7 @@ class HomePage extends React.Component {
                     setStateLessonTime={this.props.setStateLessonTime}
                     viewOnly={true}
                     canStart={true}
+                    canRevise={true}
                     canEdit={true}
                     canDelete={true}
                     id={lessonPlan.id}
