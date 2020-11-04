@@ -49,6 +49,18 @@ function LessonCard(props) {
     return true;
   };
 
+  const reviseLessonPlan = () => {
+    console.log("∞° reviseLessonPlan...");
+    // Pass up props to select this lesson before visiting /addtopic
+    const id=props.id
+    const title=props.title
+    console.log("∞° id=\n", id);
+    console.log("∞° title=\n", title);
+    props.setStateLesson(id, title)
+    history.push("/addtopic");
+    return true;
+  };
+
   const editLesson = () => {
     setViewOnly(false);
     return true;
@@ -101,15 +113,22 @@ function LessonCard(props) {
 
   const title = () => {
     const retVal = props.title || "Lesson";
-    console.log("∞° retVal=\n", retVal);
     return retVal;
   }
 
   const duration = () => {
-    const retVal = props.duration || "Amount of time";
-    console.log("∞° retVal=\n", retVal);
+    // Note, duration default to 0 so must explicitly check for bad iffy values
+    const retVal = typeof props.duration !== "undefined" && props.duration !== null
+      ? props.duration
+      : "Amount of time";
     return retVal;
   }
+
+      /* {{{ **
+      ** <p>props.id={props.id}</p>
+      ** <p>props.title={props.title}</p>
+      ** <p>props.duration={props.duration}</p>
+      ** }}} */
 
   return(
     <Card className="m-3">
@@ -139,6 +158,27 @@ function LessonCard(props) {
       </form>
       <Row>
         <Col>
+        {/* Edit button is hidden if id is null or otherwise invalid */}
+        {/* or if edit button functionality is not enabled         */}
+        {/* or if not currently in view mode anymore               */}
+        {props.id && props.canEdit && viewOnly
+          ? <Button variant="secondary" onClick={editLesson}>Edit</Button>
+          : ""
+        }
+        </Col>
+
+        <Col>
+        {/* Delete button is hidden if id is null or otherwise invalid */}
+        {/* or if delete button functionality is not enabled         */}
+        {props.id && props.canDelete
+          ? <Button variant="secondary" onClick={deleteLesson}>Delete</Button>
+          : ""
+        }
+        </Col>
+      </Row>
+
+      <Row>
+        <Col>
         {/* Start button is hidden if id is null or otherwise invalid */}
         {/* or if start button functionality is not enabled         */}
         {props.id && props.canStart
@@ -148,19 +188,10 @@ function LessonCard(props) {
         </Col>
 
         <Col>
-        {/* Edit button is hidden if id is null or otherwise invalid */}
+        {/* Revise button is hidden if id is null or otherwise invalid */}
         {/* or if edit button functionality is not enabled         */}
-        {/* or if not currently in view mode anymore               */}
-        {props.id && props.canEdit && viewOnly
-          ? <Button variant="secondary" onClick={editLesson}>Edit</Button>
-          : ""
-        }
-        </Col>
-        <Col>
-        {/* Delete button is hidden if id is null or otherwise invalid */}
-        {/* or if delete button functionality is not enabled         */}
-        {props.id && props.canDelete
-          ? <Button variant="secondary" onClick={deleteLesson}>Delete</Button>
+        {props.id && props.canRevise
+          ? <Button variant="secondary" onClick={reviseLessonPlan}>Revise Lesson Plan</Button>
           : ""
         }
         </Col>
