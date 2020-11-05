@@ -35,7 +35,7 @@ module.exports = {
     db.Lesson
       .update({
         title: req.body.title,
-        time: req.body.time
+        duration: req.body.duration
       }, {
         where: {
           id: req.params.id

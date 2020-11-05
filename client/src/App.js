@@ -158,7 +158,9 @@ class App extends Component {
                   lessonTitle={this.state.lessonTitle}
                   lessonDuration={this.state.lessonDuration}
                   topicsArray={this.state.topicsArray}
+                  setStateLessonTime={this.setStateLessonTime}
                   setStateLesson={this.setStateLesson}
+                  setStateTopics={this.setStateTopics}
                   {...props}
                 />
               )} />

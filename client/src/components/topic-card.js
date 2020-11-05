@@ -202,8 +202,9 @@ function TopicCard(props) {
           <Col>
           {/* Back button is hidden if id is null or otherwise invalid */}
           {/* or if back button functionality is not enabled         */}
+          {/* BE SURE to pass a valid backMethod prop when using it! */}
           {props.id && props.showBack
-            ? <Button variant="secondary" onClick={startLesson}>Back</Button>
+            ? <Button variant="secondary" onClick={props.backMethod}>Back</Button>
             : ""
           }
           </Col>
@@ -211,8 +212,9 @@ function TopicCard(props) {
           <Col>
           {/* Next button is hidden if id is null or otherwise invalid */}
           {/* or if next button functionality is not enabled         */}
+          {/* BE SURE to pass a valid nextMethod prop when using it! */}
           {props.id && props.showNext
-            ? <Button variant="secondary" onClick={startLesson}>Next</Button>
+            ? <Button variant="secondary" onClick={props.nextMethod}>Next</Button>
             : ""
           }
           </Col>
