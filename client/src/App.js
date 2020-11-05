@@ -64,7 +64,7 @@ class App extends Component {
   //
   // The second, callback argument allows code in another component a chance
   // to run only after topicsArray has finished being built or updated.
-  setStateTopics = (rawTopicsArray,callback) => {
+  setStateTopics = (rawTopicsArray, callback) => {
     console.log("∞° HI, In setStateTopics rawTopicsArray=\n", rawTopicsArray);
     const updateTopics = [];
     rawTopicsArray.forEach((topic, index) => {
@@ -77,7 +77,7 @@ class App extends Component {
     });
     this.setState({
       topicsArray: updateTopics
-    },callback());
+    }, callback());
     console.log("∞° A setStateTopics(), topicsArray=\n", this.state.topicsArray);
   };
 

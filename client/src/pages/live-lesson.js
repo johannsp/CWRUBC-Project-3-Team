@@ -48,9 +48,9 @@ class LiveLesson extends React.Component {
           this.setState({
             topicKeys: keyValues,
             currIndex: curr,
-            currTopic: curr ? this.props.topicsArray[keyValues[curr]] : null,
+            currTopic: curr !== null ? this.props.topicsArray[keyValues[curr]] : null,
             nextIndex: next,
-            nextTopic: next ? this.props.topicsArray[keyValues[next]] : null
+            nextTopic: next !== null ? this.props.topicsArray[keyValues[next]] : null
           });
           console.log("∞° this.props.topicsArray=\n", this.props.topicsArray);
         });
@@ -63,20 +63,22 @@ class LiveLesson extends React.Component {
   };
 
   goToBackTopic = () => {
+    console.log("∞° goToBackTopic...");
     // Scroll backward if possible to previous topic.
     if (this.currIndex > 0) {
       const next = this.currIndex;
       const curr = this.currIndex - 1;
       this.setState({
         currIndex: curr,
-        currTopic: curr ? this.props.topicsArray[this.topicKeys[curr]] : null,
+        currTopic: curr !== null ? this.props.topicsArray[this.topicKeys[curr]] : null,
         nextIndex: next,
-        nextTopic: next ? this.props.topicsArray[this.topicKeys[next]] : null
+        nextTopic: next !== null ? this.props.topicsArray[this.topicKeys[next]] : null
       });
     }
   };
 
   goToNextTopic = () => {
+    console.log("∞° goToNextTopic...");
     // Scroll forward if possible to next topic; note that nextIndex
     // becomes null when currIndex is the last one.
     if (this.nextIndex) {
@@ -84,9 +86,9 @@ class LiveLesson extends React.Component {
       const next = curr + 1 < this.topicKeys.length ? curr + 1 : null;
       this.setState({
         currIndex: curr,
-        currTopic: curr ? this.props.topicsArray[this.topicKeys[curr]] : null,
+        currTopic: curr !== null ? this.props.topicsArray[this.topicKeys[curr]] : null,
         nextIndex: next,
-        nextTopic: next ? this.props.topicsArray[this.topicKeys[next]] : null
+        nextTopic: next !== null ? this.props.topicsArray[this.topicKeys[next]] : null
       });
     }
   };
@@ -120,7 +122,7 @@ class LiveLesson extends React.Component {
   };
 
   nextTopicJSX = () => {
-    console.log("∞° nextTopicJSX...");
+    console.log("∞° LiveLesson nextTopicJSX...");
     console.log("∞° this.state.nextTopic=\n", this.state.nextTopic);
     if (this.state.nextTopic) {
       return (
