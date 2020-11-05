@@ -22,6 +22,7 @@ class LiveLesson extends React.Component {
   };
 
   componentDidMount() {
+    console.log("∞° In LiveLesson componentDidMount this.props=\n", this.props);
     this.loadTopicsOnLessonPlan();
   }
 
@@ -38,22 +39,20 @@ class LiveLesson extends React.Component {
           // Generate an array with the list of keys in the topicsArray object
           // so two TopicPage components move item by item through the topics.
           console.log("∞° this.props.topicsArray=\n", this.props.topicsArray);
-          /* {{{ **
-          ** const keyValues = Object.keys(this.props.topicsArray);
-          ** const curr = keyValues.length >= 0 ? 0 : null;
-          ** const next = keyValues.length >= 0 ? 0 : null;
-          ** console.log("∞° keyValues=\n", keyValues);
-          ** console.log("∞° curr=\n", curr);
-          ** console.log("∞° next=\n", next);
-          ** this.setState({
-          **   topicKeys: keyValues,
-          **   currIndex: curr,
-          **   currTopic: curr ? this.props.topicsArray[keyValues[curr]] : null,
-          **   nextIndex: next,
-          **   nextTopic: next ? this.props.topicsArray[keyValues[next]] : null
-          ** });
-          ** console.log("∞° this.props.topicsArray=\n", this.props.topicsArray);
-          ** }}} */
+          const keyValues = Object.keys(this.props.topicsArray);
+          const curr = keyValues.length >= 0 ? 0 : null;
+          const next = keyValues.length >= 1 ? 1 : null;
+          console.log("∞° keyValues=\n", keyValues);
+          console.log("∞° curr=\n", curr);
+          console.log("∞° next=\n", next);
+          this.setState({
+            topicKeys: keyValues,
+            currIndex: curr,
+            currTopic: curr ? this.props.topicsArray[keyValues[curr]] : null,
+            nextIndex: next,
+            nextTopic: next ? this.props.topicsArray[keyValues[next]] : null
+          });
+          console.log("∞° this.props.topicsArray=\n", this.props.topicsArray);
         });
       })
       .catch(err => console.log(err));
@@ -93,7 +92,7 @@ class LiveLesson extends React.Component {
   };
 
   currTopicJSX = () => {
-    console.log("∞° currTopicJSX...");
+    console.log("∞° LiveLesson currTopicJSX...");
     console.log("∞° this.state.currTopic=\n", this.state.currTopic);
     if (this.state.currTopic) {
       return (
@@ -151,10 +150,29 @@ class LiveLesson extends React.Component {
   };
 
               /* {{{ **
-              ** <h3>Current topic</h3>
-              ** {this.currTopicJSX()}
-              ** <h3>Next up topic</h3>
-              ** {this.nextTopicJSX()}
+              ** <h3>List of Topics</h3>
+              ** {this.props.topicsArray.map((topic) => {
+              **   console.log("∞° topic=\n", topic);
+              **   console.log("∞° topic.title=\n", topic.title);
+              **   return (
+              **     <TopicCard
+              **       lessonId={this.props.lessonId}
+              **       setStateLesson={this.props.setStateLesson}
+              **       setStateLessonTime={this.props.setStateLessonTime}
+              **       setStateTopic={this.props.setStateTopic}
+              **       viewOnly={true}
+              **       showBack={true}
+              **       showNext={true}
+              **       canEdit={false}
+              **       canDelete={false}
+              **       id={topic.id}
+              **       key={topic.id}
+              **       title={topic.title}
+              **       duration={topic.duration}
+              **       notes={topic.notes}
+              **     />
+              **   );
+              ** })}
               ** }}} */
 
   render() {
@@ -196,30 +214,10 @@ class LiveLesson extends React.Component {
                 title={this.props.lessonTitle}
                 duration={this.props.lessonDuration}
               />
-              <h3>List of Topics</h3>
-              {this.props.topicsArray.map((topic) => {
-                console.log("∞° topic=\n", topic);
-                console.log("∞° topic.title=\n", topic.title);
-                return (
-                  <TopicCard
-                    lessonId={this.props.lessonId}
-                    setStateLesson={this.props.setStateLesson}
-                    setStateLessonTime={this.props.setStateLessonTime}
-                    setStateTopic={this.props.setStateTopic}
-                    viewOnly={true}
-                    showBack={true}
-                    showNext={true}
-                    canEdit={false}
-                    canDelete={false}
-                    id={topic.id}
-                    key={topic.id}
-                    title={topic.title}
-                    duration={topic.duration}
-                    notes={topic.notes}
-                  />
-                );
-              })}
-
+              <h3>Current topic</h3>
+              {this.currTopicJSX()}
+              <h3>Next up topic</h3>
+              {this.nextTopicJSX()}
             </Jumbotron>
           </Col>
         </Row>

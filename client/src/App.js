@@ -61,8 +61,11 @@ class App extends Component {
   };
 
   // Populate topics information for current lesson
-  setStateTopics = (rawTopicsArray) => {
-    console.log("∞° In setStateTopics rawTopicsArray=\n", rawTopicsArray);
+  //
+  // The second, callback argument allows code in another component a chance
+  // to run only after topicsArray has finished being built or updated.
+  setStateTopics = (rawTopicsArray,callback) => {
+    console.log("∞° HI, In setStateTopics rawTopicsArray=\n", rawTopicsArray);
     const updateTopics = [];
     rawTopicsArray.forEach((topic, index) => {
       const idStr = topic.id.toString();
@@ -74,7 +77,7 @@ class App extends Component {
     });
     this.setState({
       topicsArray: updateTopics
-    });
+    },callback());
     console.log("∞° A setStateTopics(), topicsArray=\n", this.state.topicsArray);
   };
 
