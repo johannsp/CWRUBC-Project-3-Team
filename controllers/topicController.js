@@ -50,7 +50,7 @@ module.exports = {
     db.Topic
       .update({
         title: req.body.title,
-        time: req.body.time,
+        duration: req.body.duration,
         notes: req.body.notes
       }, {
         where: {

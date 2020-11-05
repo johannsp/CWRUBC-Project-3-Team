@@ -17,7 +17,9 @@ class HomePage extends React.Component {
     lessonData: []
   };
 
-  handleChange = (event) => {};
+  /* {{{ **
+  ** handleChange = (event) => {};
+  ** }}} */
 
   componentDidMount() {
     this.loadLessonPlan();
@@ -57,6 +59,7 @@ class HomePage extends React.Component {
                   <LessonCard
                     setStateLesson={this.props.setStateLesson}
                     setStateLessonTime={this.props.setStateLessonTime}
+                    refreshParent={this.loadLessonPlan}
                     viewOnly={true}
                     canStart={true}
                     canRevise={true}
