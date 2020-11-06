@@ -4,6 +4,7 @@ import { Container, Button, Col, Row, Jumbotron } from "react-bootstrap";
 import ProgTitle from "../components/prog-title";
 import LessonCard from "../components/lesson-card";
 import TopicCard from "../components/topic-card";
+import TimeStatusCard from "../components/time-status-card";
 import LessonAPI from "../utils/databaseLessonAPI";
 import TopicAPI from "../utils/databaseTopicAPI";
 
@@ -220,6 +221,31 @@ class LiveLesson extends React.Component {
               ** })}
               ** }}} */
 
+              /* {{{ **
+              ** <Button
+              **   variant="secondary"
+              **   onClick={this.startTimer}
+              ** >Start Timer</Button>
+              ** <Row>
+              **   <Col>
+              **   <span className="TargetTimeBefore">
+              **   At topic start: {this.state.targetTimeBefore} mins
+              **   </span>
+              **   </Col>
+              ** 
+              **   <Col>
+              **   <span className="ActualElapsedTime">
+              **   Time spent: </span>
+              **   </Col>
+              ** 
+              **   <Col>
+              **   <span className="TargetTimeAfter">
+              **   At topic end: {this.state.targetTimeAfter} mins
+              **   </span>
+              **   </Col>
+              ** </Row>
+              ** }}} */
+
   render() {
     // If the lessonId is lost, possibly on a reload then return to the home page
     if (!(this.props.lessonId)) {
@@ -239,12 +265,7 @@ class LiveLesson extends React.Component {
               <br />
               <h3>Lesson (Id:{this.props.lessonId}) {this.props.lessonTitle}</h3>
               <h3>{this.props.lessonDuration} minutes</h3>
-              <h3>Teach the lesson</h3>
-              <Button
-                variant="secondary"
-                onClick={this.startTimer}
-              >Start Timer</Button>
-
+              <br />
               <LessonCard
                 setStateLesson={this.props.setStateLesson}
                 setStateLessonTime={this.props.setStateLessonTime}
@@ -260,27 +281,14 @@ class LiveLesson extends React.Component {
                 duration={this.props.lessonDuration}
               />
               <br />
-              <Row>
-                <h3>Time already used and planned time progress as of the current topic</h3>
-              </Row>
-              <Row>
-                <Col>
-                <span className="TargetTimeBefore">
-                At topic start: {this.state.targetTimeBefore} mins
-                </span>
-                </Col>
-
-                <Col>
-                <span className="ActualElapsedTime">
-                Time spent: </span>
-                </Col>
-
-                <Col>
-                <span className="TargetTimeAfter">
-                At topic end: {this.state.targetTimeAfter} mins
-                </span>
-                </Col>
-              </Row>
+              <h3>Teach the lesson</h3>
+              <br />
+              <TimeStatusCard
+                secondsElapsed={0}
+                caption="Time already used and planned time progress as of the current topic"
+                targetTimeBefore={this.state.targetTimeBefore}
+                targetTimeAfter={this.state.targetTimeAfter}
+              />
               <br />
               <h3>Current topic</h3>
               {this.currTopicJSX()}
