@@ -68,9 +68,9 @@ class AddTopic extends React.Component {
       .then(res => {
         console.log("∞° res=\n", res);
         // Store raw array data into App state management
-        this.props.setStateTopics(res.data, () => {});
+        this.props.setStateTopics(res.data);
         // Store the total duration for all topics in this lesson
-        this.props.setStateLessonTime();
+        this.props.setStateLessonTime(0); // Recompute
       })
       .catch(err => console.log(err));
     console.log("∞° exiting loadTopicsOnLessonPlan...");

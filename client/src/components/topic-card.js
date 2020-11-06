@@ -43,7 +43,7 @@ function TopicCard(props) {
             0,
             ""
           );
-          props.setStateLessonTime();
+          props.setStateLessonTime(0); // Recompute
         })
         .catch( (error) => {
           console.log(error);
@@ -52,6 +52,14 @@ function TopicCard(props) {
   };
 
   const startLesson = () => {
+    console.log("∞° startLesson...");
+    console.log("∞° props.id=\n", props.id);
+    console.log("∞° props.title=\n", props.title);
+    // Store which lesson is selected in state management
+    // then prepare to run the live lesson
+    const id = props.id;
+    const title = props.title;
+    props.setStateLesson(id, title);
     history.push("/livelesson");
     return true;
   };
@@ -110,7 +118,7 @@ function TopicCard(props) {
             durationRef.current.value,
             notesRef.current.value
           );
-          props.setStateLessonTime();
+          props.setStateLessonTime(0); // Recompute
           setViewOnly(true);
         })
         .catch( (error) => {
@@ -131,7 +139,7 @@ function TopicCard(props) {
           titleRef.current.value = "";
           durationRef.current.value = 0;
           notesRef.current.value = "";
-          props.setStateLessonTime();
+          props.setStateLessonTime(0); // Recompute
         })
         .catch( (error) => {
           console.log(error);
@@ -164,20 +172,20 @@ function TopicCard(props) {
             : ""
           }
           <input
-            disabled={viewOnly}
+            readOnly={viewOnly}
             ref={titleRef}
             type="text"
             placeholder={title()}
           />
           <input
-            disabled={viewOnly}
+            readOnly={viewOnly}
             ref={durationRef}
             type="text"
             placeholder={duration()}
           />
           <Card.Body>
             <textarea
-              disabled={viewOnly}
+              readOnly={viewOnly}
               ref={notesRef}
               placeholder={notes()}
             />
@@ -195,26 +203,6 @@ function TopicCard(props) {
           {/* or if start button functionality is not enabled         */}
           {props.id && props.canStart
             ? <Button variant="secondary" onClick={startLesson}>Start</Button>
-            : ""
-          }
-          </Col>
-
-          <Col>
-          {/* Back button is hidden if id is null or otherwise invalid */}
-          {/* or if back button functionality is not enabled         */}
-          {/* BE SURE to pass a valid backMethod prop when using it! */}
-          {props.id && props.showBack
-            ? <Button variant="secondary" onClick={props.backMethod}>Back</Button>
-            : ""
-          }
-          </Col>
-
-          <Col>
-          {/* Next button is hidden if id is null or otherwise invalid */}
-          {/* or if next button functionality is not enabled         */}
-          {/* BE SURE to pass a valid nextMethod prop when using it! */}
-          {props.id && props.showNext
-            ? <Button variant="secondary" onClick={props.nextMethod}>Next</Button>
             : ""
           }
           </Col>
