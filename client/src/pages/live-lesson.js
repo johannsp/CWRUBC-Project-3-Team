@@ -27,6 +27,24 @@ class LiveLesson extends React.Component {
     this.loadTopicsOnLessonPlan();
   }
 
+  setCurrentTargetTimes(topics, curr, next) {
+    // Compute planned target times for the begining and ending of the
+    // currently displayed topic, which can be compared to the actual
+    // elapsed presentation time.
+    let timeBefore = 0;
+    let timeAfter  = 0;
+    if (curr !== null) {
+      for (let i = 0; i < curr; i++) {
+        timeBefore += topics[i].duration;
+      }
+      timeAfter = timeBefore + topics[curr].duration;
+    }
+    this.setState({
+      targetTimeBefore: timeBefore,
+      targetTimeAfter: timeAfter
+    });
+  }
+
   loadTopicsOnLessonPlan = () => {
     console.log("∞° loadTopicsOnLessonPlan...");
     console.log("∞° this.props.lessonId=\n", this.props.lessonId);
@@ -51,12 +69,13 @@ class LiveLesson extends React.Component {
             const next = topic.length > 1 ? 1 : null;
             console.log("∞° curr=\n", curr);
             console.log("∞° next=\n", next);
+            this.setCurrentTargetTimes(topic, curr, next);
             this.setState({
               lessonId: lesson.id,
               currIndex: curr,
               currTopic: curr !== null ? topic[curr] : null,
               nextIndex: next,
-              nextTopic: next !== null ? topic[next] : null
+              nextTopic: next !== null ? topic[next] : null,
             });
             console.log("∞° this.props.topicsArray=\n", this.props.topicsArray);
           })
@@ -77,6 +96,7 @@ class LiveLesson extends React.Component {
       const curr = this.state.currIndex - 1;
       console.log("∞° next=\n", next);
       console.log("∞° curr=\n", curr);
+      this.setCurrentTargetTimes(this.props.topicsArray, curr, next);
       this.setState({
         currIndex: curr,
         currTopic: curr !== null ? this.props.topicsArray[curr] : null,
@@ -98,6 +118,7 @@ class LiveLesson extends React.Component {
       const next = curr + 1 < this.props.topicsArray.length ? curr + 1 : null;
       console.log("∞° next=\n", next);
       console.log("∞° curr=\n", curr);
+      this.setCurrentTargetTimes(this.props.topicsArray, curr, next);
       this.setState({
         currIndex: curr,
         currTopic: curr !== null ? this.props.topicsArray[curr] : null,
@@ -238,6 +259,29 @@ class LiveLesson extends React.Component {
                 title={this.props.lessonTitle}
                 duration={this.props.lessonDuration}
               />
+              <br />
+              <Row>
+                <h3>Time already used and planned time progress as of the current topic</h3>
+              </Row>
+              <Row>
+                <Col>
+                <span className="TargetTimeBefore">
+                At topic start: {this.state.targetTimeBefore} mins
+                </span>
+                </Col>
+
+                <Col>
+                <span className="ActualElapsedTime">
+                Time spent: </span>
+                </Col>
+
+                <Col>
+                <span className="TargetTimeAfter">
+                At topic end: {this.state.targetTimeAfter} mins
+                </span>
+                </Col>
+              </Row>
+              <br />
               <h3>Current topic</h3>
               {this.currTopicJSX()}
               <h3>Next up topic</h3>
