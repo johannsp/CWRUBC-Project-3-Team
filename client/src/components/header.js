@@ -4,12 +4,12 @@ import logo from '../images/classtimelogo.jpg'
 
 function Header() {
   return (
-    <Navbar bg="dark">
-    <Navbar.Brand>
+    <Navbar sticky="top" className="justify-content-center">
+    <Navbar.Brand className="mx-auto p-0">
       <img
         src={logo}
-        width="30"
-        height="30"
+        width="325"
+        height="100"
         className="d-inline-block align-top"
         alt="Classtime app logo"
       />

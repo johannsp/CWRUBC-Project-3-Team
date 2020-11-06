@@ -42,12 +42,12 @@ function Login() {
           <Jumbotron className="text-center p-5">
           <h2>Login</h2>
           <p>{prompt}</p>
-          </Jumbotron>
+          
 
           {/* Login Form */}
           <Form className="login">
             <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
+              <Form.Label className="text-left">Email address</Form.Label>
               <Form.Control
                 onChange={ e => setEmail(e.target.value) }
                 type="email"
@@ -72,6 +72,7 @@ function Login() {
           
           <br />
           <p>Or sign up <Link to="/signup">here</Link></p>
+          </Jumbotron>
         </Col>
       </Row>
     </Container>
