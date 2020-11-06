@@ -162,7 +162,7 @@ function TopicCard(props) {
     return retVal;
   }
 
-  return(
+  return (
     <Card className="m-3">
       <form className="form" onSubmit={handleSubmit}>
         <Row>

@@ -138,11 +138,8 @@ function LessonCard(props) {
     return retVal;
   }
 
-  return(
+  return (
     <Card className="m-3">
-      <p>props.id={props.id}</p>
-      <p>props.title={props.title}</p>
-      <p>props.duration={props.duration}</p>
       <form className="form" onSubmit={handleSubmit}>
         <input
           readOnly={viewOnly}
