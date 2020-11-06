@@ -50,8 +50,13 @@ function LessonCard(props) {
   };
 
   const startLesson = () => {
-    props.setStateLesson(id, title)
-    history.push("/livelesson");
+    const id=props.id
+    const title=props.title
+    // Store lesson id and title in state management and pass a call back
+    // to wait for React to update state before jumping to a new component
+    props.setStateLesson(id, title, () => {
+      history.push("/livelesson");
+    });
     return true;
   };
 
@@ -62,8 +67,11 @@ function LessonCard(props) {
     const title=props.title
     console.log("∞° id=\n", id);
     console.log("∞° title=\n", title);
-    props.setStateLesson(id, title)
-    history.push("/addtopic");
+    // Store lesson id and title in state management and pass a call back
+    // to wait for React to update state before jumping to a new component
+    props.setStateLesson(id, title, () => {
+      history.push("/addtopic");
+    });
     return true;
   };
 
@@ -130,14 +138,11 @@ function LessonCard(props) {
     return retVal;
   }
 
-  return(
+  return (
     <Card className="m-3">
-      <p>props.id={props.id}</p>
-      <p>props.title={props.title}</p>
-      <p>props.duration={props.duration}</p>
       <form className="form" onSubmit={handleSubmit}>
         <input
-          disabled={viewOnly}
+          readOnly={viewOnly}
           ref={titleRef}
           name="LessonTitle"
           type="text"
