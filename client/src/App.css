@@ -1,4 +1,6 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap');
+
+/* .App {
   text-align: center;
 }
 
@@ -16,9 +18,27 @@
 
 .App-intro {
   font-size: large;
+} */
+
+body {
+  /* background-image: url("./images/classroom-background.jpg"); */
+  /* background-image: linear-gradient(to bottom, rgba(255,255,255,1), rgb(55,155,255,.5), rgb(55,135,111)); */
+  background-color: rgb(55,135,111);
+  font-family: 'Merriweather', serif;
 }
 
-@keyframes App-logo-spin {
+.jumbotron {
+  border-style: solid;
+  size: 40px;
+}
+
+.navbar { 
+  background-color: rgb(255, 255, 255);
+  padding-bottom: 0;
+} 
+
+
+/* @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
-}
+} */

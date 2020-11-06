@@ -8,6 +8,7 @@ import AddLesson from "./pages/add-lesson";
 import AddTopic from "./pages/add-topic";
 import LiveLesson from "./pages/live-lesson";
 import "./App.css";
+import Header from "./components/header";
 import API from "./utils/databaseLessonAPI";
 
 class App extends Component {
@@ -126,6 +127,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Header />
         <Router>
           <Switch>
             <Route exact path={["/", "/login"]}>
