@@ -1,36 +1,7 @@
 import React from "react";
-/* {{{ **
-** import { Link } from "react-router-dom";
-** }}} */
 import { Container, Col, Row, Jumbotron } from "react-bootstrap";
 import ProgTitle from "../components/prog-title";
 import API from "../utils/databaseLessonAPI";
-
-/* {{{ **
-** import React, { useState } from "react";
-** import { Container, Form, Button, Col, Jumbotron } from "react-bootstrap";
-** import TopicCard from "../components/topic-card";
-** import API from "../utils/databaseLessonAPI";
-** }}} */
-
-  /* {{{ **
-  ** state = {
-  **   sampleData: [
-  **     {
-  **       topicTitle: "Basic Algorithms",
-  **       topicTime: "15:00",
-  **       topicNotes: "These are some notes for the topic I'm currently speaking about."
-  **     },
-  **     {
-  **       topicTitle: "22.2 Algorithms",
-  **       topicTime: "30:00",
-  **       topicNotes: "Wow look here's more sample notes for this other topic!"
-  **     },
-  **   ],
-  **   lessonTitle: '',
-  **   savedId: -1
-  ** };
-  ** }}} */
 
 class AddLesson extends React.Component {
   // Setting the component's initial state
@@ -68,60 +39,7 @@ class AddLesson extends React.Component {
       });
   };
 
-  /* {{{ **
-  ** handleChange = (event) => {};
-  ** }}} */
-
-  /* {{{ **
-  ** componentDidMount() {
-  **   this.loadLessonPlans();
-  ** }
-  ** 
-  ** loadLessonPlans = () => {
-  **   API.getAllLessons()
-  **     .then(res => {
-  **       console.log("∞° res=\n", res);
-  **       //this.props.setStateLesson(res.data.id, res.data.title);
-  **     })
-  **     .catch(err => console.log(err));
-  ** };
-  ** }}} */
-
   render() {
-    /* {{{ **
-    ** <Jumbotron>
-    **   {this.state.sampleData.map((lessonTopic) => {
-    **     return (
-    **       <TopicCard
-    **         title={lessonTopic.topicTitle}
-    **         time={lessonTopic.topicTime}
-    **         notes={lessonTopic.topicNotes}
-    **       />
-    **     );
-    **   })}
-    ** </Jumbotron>
-    ** }}} */
-            /* {{{ **
-            ** <Link to="/addtopic">
-            **   <Button variant="secondary">Add Topic</Button>
-            ** </Link>
-            ** }}} */
-            /* {{{ **
-            ** <h3>List of Lessons</h3>
-            ** {this.state.lessonData.map((lesson) => {
-            **   return (
-            **     <LessonCard
-            **       lessonId={this.props.lessonId}
-            **       setStateLesson={this.props.setStateLesson}
-            **       title={lesson.title}
-            **       time={lesson.time}
-            **       viewOnly={false}
-            **       canEdit={false}
-            **       canDelete={true}
-            **     />
-            **   );
-            ** })}
-            ** }}} */
     return (
       <Container className="d-flex min-vh-100 justify-content-center align-items-center">
         <Row>

@@ -5,21 +5,10 @@ import ProgTitle from "../components/prog-title";
 import LessonCard from "../components/lesson-card";
 import API from "../utils/databaseLessonAPI";
 
-/* {{{ **
-** import React, { useState } from "react";
-** import { Link, useLocation } from "react-router-dom";
-** import { Container, Button, Col, Jumbotron } from "react-bootstrap";
-** import LessonCard from "../components/lesson-card";
-** }}} */
-
 class HomePage extends React.Component {
   state = {
     lessonData: []
   };
-
-  /* {{{ **
-  ** handleChange = (event) => {};
-  ** }}} */
 
   componentDidMount() {
     this.loadLessonPlan();
@@ -32,9 +21,6 @@ class HomePage extends React.Component {
         this.setState({
           lessonData: res.data
         });
-        /* {{{ **
-        ** this.props.setStateLesson(this.lessonData.id, this.lessonData.title);
-        ** }}} */
         console.log("∞° this.state.lessonData=\n", this.state.lessonData);
       })
       .catch(err => console.log(err));
@@ -52,6 +38,7 @@ class HomePage extends React.Component {
                   variant="secondary"
                 >Create Lesson Plan</Button>
               </Link>
+              <br />
               <h3>List of Lessons</h3>
               {this.state.lessonData.map((lessonPlan) => {
                 console.log("∞° lessonPlan=\n", lessonPlan);
