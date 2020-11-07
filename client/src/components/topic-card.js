@@ -1,23 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Card, Col, Row } from 'react-bootstrap';
+import { Container, Button, Card, Col, Row, InputGroup } from 'react-bootstrap';
 import API from "../utils/databaseTopicAPI";
-
-/* {{{ **
-** import React, {useState} from "react";
-** import { Container, Form, Button, Col, Card } from 'react-bootstrap';
-** }}} */
-
-      /* {{{ **
-      ** <p className="m-1">{props.title}</p>
-      ** <p className="m-1">{props.time}</p>
-      ** <Card.Body>
-      **   <p className="m-1">{props.notes}</p>
-      ** </Card.Body>
-      **
-      ** <Button className="m-1">START</Button>
-      ** <Button className="m-1">START</Button>
-      ** }}} */
 
 function TopicCard(props) {
   const [id, setId] = useState(props.id);
@@ -93,15 +77,18 @@ function TopicCard(props) {
       setPrompt("Please enter topic");
       return;
     }
-    if (!(data.duration))
+    else if (!(data.duration))
     {
       setPrompt("Please enter how many minutes");
       return;
     }
-    if (!(data.notes) || 0 === data.notes.length)
+    else if (!(data.notes) || 0 === data.notes.length)
     {
       setPrompt("Please enter notes");
       return;
+    }
+    else {
+      setPrompt("");
     }
     // When adding a new topic props.id should be null
     // otherwise update using the existing id value
@@ -163,72 +150,88 @@ function TopicCard(props) {
   }
 
   return (
-    <Card className="m-3">
-      <form className="form" onSubmit={handleSubmit}>
-        <Row>
-          <Col>
-          {id
-            ? <span>Id: {id}</span>
-            : ""
-          }
-          <input
-            readOnly={viewOnly}
-            ref={titleRef}
-            type="text"
-            placeholder={title()}
-          />
-          <input
-            readOnly={viewOnly}
-            ref={durationRef}
-            type="text"
-            placeholder={duration()}
-          />
-          <Card.Body>
-            <textarea
-              readOnly={viewOnly}
-              ref={notesRef}
-              placeholder={notes()}
-            />
-          </Card.Body>
-          {/* Save button is hidden when data input is view only */}
-          {viewOnly
-            ? ""
-            : <Button variant="secondary" type="submit" >Save</Button>
-          }
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-          {/* Start button is hidden if id is null or otherwise invalid */}
-          {/* or if start button functionality is not enabled         */}
-          {props.id && props.canStart
-            ? <Button variant="secondary" onClick={startLesson}>Start</Button>
-            : ""
-          }
-          </Col>
+    <Container className="d-flex justify-content-left align-items-left">
+      <Card className="m-3" style={{ width: "80vw" }}>
+        <form className="form" onSubmit={handleSubmit}>
+          <Row className="mb-2">
+            <Col>
+            <InputGroup>
+              <InputGroup.Prepend>
+                <InputGroup.Text>
+                Topic:
+                </InputGroup.Text>
+              </InputGroup.Prepend>
+              <input
+                readOnly={viewOnly}
+                ref={titleRef}
+                type="text"
+                placeholder={title()}
+              />
+            </InputGroup>
 
-          <Col>
-          {/* Edit button is hidden if id is null or otherwise invalid */}
-          {/* or if edit button functionality is not enabled         */}
-          {/* or if not currently in view mode anymore               */}
-          {props.id && props.canEdit && viewOnly
-            ? <Button variant="secondary" onClick={editTopic}>Edit</Button>
-            : ""
-          }
-          </Col>
+            <InputGroup>
+              <InputGroup.Prepend>
+                <InputGroup.Text>
+                Minutes:
+                </InputGroup.Text>
+              </InputGroup.Prepend>
+              <input
+                readOnly={viewOnly}
+                ref={durationRef}
+                type="text"
+                placeholder={duration()}
+              />
+            </InputGroup>
 
-          <Col>
-          {/* Delete button is hidden if id is null or otherwise invalid */}
-          {/* or if delete button functionality is not enabled         */}
-          {props.id && props.canDelete
-            ? <Button variant="secondary" onClick={deleteTopic}>Delete</Button>
-            : ""
-          }
-          </Col>
-        </Row>
-      </form>
-      <p>{prompt}</p>
-    </Card>
+            <InputGroup>
+              <textarea
+                readOnly={viewOnly}
+                ref={notesRef}
+                placeholder={notes()}
+                style={{minWidth: "100%"}}
+              />
+            </InputGroup>
+            {/* Save button is hidden when data input is view only */}
+            {viewOnly
+              ? ""
+              : <Button variant="secondary" type="submit" >Save</Button>
+            }
+            </Col>
+          </Row>
+
+          <Row className="mb-2">
+            <Col>
+            {/* Start button is hidden if id is null or otherwise invalid */}
+            {/* or if start button functionality is not enabled         */}
+            {props.id && props.canStart
+              ? <Button variant="secondary" onClick={startLesson}>Start</Button>
+              : ""
+            }
+            </Col>
+
+            <Col>
+            {/* Edit button is hidden if id is null or otherwise invalid */}
+            {/* or if edit button functionality is not enabled         */}
+            {/* or if not currently in view mode anymore               */}
+            {props.id && props.canEdit && viewOnly
+              ? <Button variant="secondary" onClick={editTopic}>Edit</Button>
+              : ""
+            }
+            </Col>
+
+            <Col>
+            {/* Delete button is hidden if id is null or otherwise invalid */}
+            {/* or if delete button functionality is not enabled         */}
+            {props.id && props.canDelete
+              ? <Button variant="secondary" onClick={deleteTopic}>Delete</Button>
+              : ""
+            }
+            </Col>
+          </Row>
+        </form>
+        <p className="red">{prompt}</p>
+      </Card>
+    </Container>
   )
 }
 

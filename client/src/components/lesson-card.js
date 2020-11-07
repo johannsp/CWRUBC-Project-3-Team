@@ -1,27 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Card, Col, Row } from 'react-bootstrap';
+import { Container, Button, Card, Col, Row, InputGroup } from 'react-bootstrap';
 import API from "../utils/databaseLessonAPI";
-
-/* {{{ **
-** import React, {useState} from "react";
-** import { Link } from "react-router-dom";
-** import { Container, Form, Button, Col, Card } from 'react-bootstrap';
-** }}} */
-
-    /* {{{ **
-    ** <Card className="m-3">
-    **   <Card.Body>
-    **     <p className="m-1">{props.title}</p>
-    **     <p className="m-1">{props.time}</p>
-    **     <Link to="/livelesson">
-    **       <Button className="m-1">START</Button>
-    **     </Link>
-    **     <Button className="m-1">EDIT</Button>
-    **     <Button className="m-1">DELETE</Button>
-    **   </Card.Body>
-    ** </Card>
-    ** }}} */
 
 function LessonCard(props) {
   const [id, setId] = useState(props.id);
@@ -83,8 +63,7 @@ function LessonCard(props) {
   const handleSubmit = event => {
     event.preventDefault();
     const data = {
-      title: titleRef.current.value,
-      duration: durationRef.current.value,
+      title: titleRef.current.value
     };
     console.log("∞° LessonCard submit: data=\n", data);
     console.log("∞° id=\n", id);
@@ -94,10 +73,15 @@ function LessonCard(props) {
       setPrompt("Please enter lesson");
       return;
     }
-    if (typeof data.duration == "undefined" || data.duration == null)
-    {
-      setPrompt("Please enter amount of time");
-      return;
+    /* {{{ **
+    ** if (typeof data.duration == "undefined" || data.duration == null)
+    ** {
+    **   setPrompt("Please enter amount of time");
+    **   return;
+    ** }
+    ** }}} */
+    else {
+      setPrompt("");
     }
     // When adding a new lesson props.id should be null
     // otherwise update using the existing id value
@@ -107,6 +91,7 @@ function LessonCard(props) {
           console.log("∞° In updateLessonById res=\n", res);
           setId(id);  // Resave in state hook in case we need it
           props.setStateLesson(data.id, data.title)
+          setViewOnly(true);
         })
         .catch( (error) => {
           console.log(error);
@@ -139,66 +124,83 @@ function LessonCard(props) {
   }
 
   return (
-    <Card className="m-3">
-      <form className="form" onSubmit={handleSubmit}>
-        <input
-          readOnly={viewOnly}
-          ref={titleRef}
-          name="LessonTitle"
-          type="text"
-          placeholder={title()}
-        />
-        {/* Lesson does not allow direct entry of total time */}
-        <input
-          disabled={true}
-          ref={durationRef}
-          name="lessonDuration"
-          type="text"
-          placeholder={duration()}
-        />
-        <Card.Body>
-        </Card.Body>
-        {/* Save button is hidden when data input is view only */}
-        {viewOnly
-          ? ""
-          : <Button variant="secondary" type="submit" >Save</Button>
-        }
-      </form>
-      <Row>
-        
-        {/* Edit button is hidden if id is null or otherwise invalid */}
-        {/* or if edit button functionality is not enabled         */}
-        {/* or if not currently in view mode anymore               */}
-        {props.id && props.canEdit && viewOnly
-          ? <Col><Button variant="secondary" onClick={editLesson}>Edit</Button></Col>
-          : ""
-        }
+    <Container className="d-flex justify-content-left align-items-left">
+      <Card className="m-3" style={{ width: "80vw" }}>
+        <form className="form mb-2" onSubmit={handleSubmit}>
+          <InputGroup>
+            <InputGroup.Prepend>
+              <InputGroup.Text>
+              Lesson:
+              </InputGroup.Text>
+            </InputGroup.Prepend>
+            <input
+              readOnly={viewOnly}
+              ref={titleRef}
+              name="LessonTitle"
+              type="text"
+              placeholder={title()}
+            />
+          </InputGroup>
 
-        {/* Delete button is hidden if id is null or otherwise invalid */}
-        {/* or if delete button functionality is not enabled         */}
-        {props.id && props.canDelete
-          ? <Col><Button variant="secondary" onClick={deleteLesson}>Delete</Button></Col>
-          : ""
-        }
-      </Row>
+          {/* Lesson does not allow direct entry of total time */}
+          <InputGroup>
+            <InputGroup.Prepend>
+              <InputGroup.Text>
+              Minutes:
+              </InputGroup.Text>
+            </InputGroup.Prepend>
+            <input
+              disabled={true}
+              ref={durationRef}
+              name="lessonDuration"
+              type="text"
+              placeholder={duration()}
+            />
+          </InputGroup>
 
-      <Row>
-        {/* Start button is hidden if id is null or otherwise invalid */}
-        {/* or if start button functionality is not enabled         */}
-        {props.id && props.canStart
-          ? <Col><Button variant="secondary" onClick={startLesson}>Start</Button></Col>
-          : ""
-        }
+          {/* Save button is hidden when data input is view only */}
+          {viewOnly
+            ? ""
+            : <Button variant="secondary" type="submit" >Save</Button>
+          }
+        </form>
 
-        {/* Revise button is hidden if id is null or otherwise invalid */}
-        {/* or if edit button functionality is not enabled         */}
-        {props.id && props.canRevise
-          ? <Col><Button variant="secondary" onClick={reviseLessonPlan}>Revise Lesson Plan</Button></Col>
-          : ""
-        }
-      </Row>
-      <p>{prompt}</p>
-    </Card>
+        <Row className="mb-2">
+          {/* Edit button is hidden if id is null or otherwise invalid */}
+          {/* or if edit button functionality is not enabled         */}
+          {/* or if not currently in view mode anymore               */}
+          {props.id && props.canEdit && viewOnly
+            ? <Col><Button variant="secondary" onClick={editLesson}>Edit Lesson</Button></Col>
+            : ""
+          }
+
+          {/* Delete button is hidden if id is null or otherwise invalid */}
+          {/* or if delete button functionality is not enabled         */}
+          {props.id && props.canDelete
+            ? <Col><Button variant="secondary" onClick={deleteLesson}>Delete Lesson</Button></Col>
+            : ""
+          }
+        </Row>
+
+        <Row className="mb-2">
+          {/* Start button is hidden if id is null or otherwise invalid */}
+          {/* or if start button functionality is not enabled         */}
+          {props.id && props.canStart
+            ? <Col><Button variant="secondary" onClick={startLesson}>Ready to teach</Button></Col>
+            : ""
+          }
+
+          {/* Revise button is hidden if id is null or otherwise invalid */}
+          {/* or if edit button functionality is not enabled         */}
+          {props.id && props.canRevise
+            ? <Col><Button variant="secondary" onClick={reviseLessonPlan}>Review Topics</Button></Col>
+            : ""
+          }
+        </Row>
+
+        <p className="red">{prompt}</p>
+      </Card>
+    </Container>
   )
 }
 

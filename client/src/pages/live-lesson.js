@@ -8,12 +8,6 @@ import TimeStatusCard from "../components/time-status-card";
 import LessonAPI from "../utils/databaseLessonAPI";
 import TopicAPI from "../utils/databaseTopicAPI";
 
-/* {{{ **
-** import React, { useState } from "react";
-** import { Container, Form, Button, Col, Jumbotron } from "react-bootstrap";
-** import TopicCard from "../components/topic-card";
-** }}} */
-
 class LiveLesson extends React.Component {
   state = {
     lessonId: null,
@@ -24,7 +18,6 @@ class LiveLesson extends React.Component {
   };
 
   componentDidMount() {
-    console.log("∞° In LiveLesson componentDidMount this.props=\n", this.props);
     this.loadTopicsOnLessonPlan();
   }
 
@@ -133,26 +126,29 @@ class LiveLesson extends React.Component {
   };
 
   currTopicJSX = () => {
-    console.log("∞° LiveLesson currTopicJSX...");
-    console.log("∞° this.state.currTopic=\n", this.state.currTopic);
     if (this.state.currTopic) {
       return (
         <>
-          <TopicCard
-            lessonId={this.props.lessonId}
-            setStateLesson={this.props.setStateLesson}
-            setStateLessonTime={this.props.setStateLessonTime}
-            setStateTopic={this.props.setStateTopic}
-            viewOnly={true}
-            canEdit={false}
-            canDelete={false}
-            id={this.state.currTopic.id}
-            key={`curr_${this.state.currTopic.id}`}
-            title={this.state.currTopic.title}
-            duration={this.state.currTopic.duration}
-            notes={this.state.currTopic.notes}
-          />
           <Row>
+            <Col>
+            <TopicCard
+              lessonId={this.props.lessonId}
+              setStateLesson={this.props.setStateLesson}
+              setStateLessonTime={this.props.setStateLessonTime}
+              setStateTopic={this.props.setStateTopic}
+              viewOnly={true}
+              canEdit={false}
+              canDelete={false}
+              id={this.state.currTopic.id}
+              key={`curr_${this.state.currTopic.id}`}
+              title={this.state.currTopic.title}
+              duration={this.state.currTopic.duration}
+              notes={this.state.currTopic.notes}
+            />
+            </Col>
+          </Row>
+
+          <Row className="mb-2">
             <Col>
               <Button variant="secondary" onClick={this.goToBackTopic}>Back</Button>
             </Col>
@@ -170,8 +166,6 @@ class LiveLesson extends React.Component {
   };
 
   nextTopicJSX = () => {
-    console.log("∞° LiveLesson nextTopicJSX...");
-    console.log("∞° this.state.nextTopic=\n", this.state.nextTopic);
     if (this.state.nextTopic) {
       return (
         <TopicCard
@@ -195,64 +189,13 @@ class LiveLesson extends React.Component {
     }
   };
 
-              /* {{{ **
-              ** <h3>List of Topics</h3>
-              ** {this.props.topicsArray.map((topic) => {
-              **   console.log("∞° topic=\n", topic);
-              **   console.log("∞° topic.title=\n", topic.title);
-              **   return (
-              **     <TopicCard
-              **       lessonId={this.props.lessonId}
-              **       setStateLesson={this.props.setStateLesson}
-              **       setStateLessonTime={this.props.setStateLessonTime}
-              **       setStateTopic={this.props.setStateTopic}
-              **       viewOnly={true}
-              **       showBack={true}
-              **       showNext={true}
-              **       canEdit={false}
-              **       canDelete={false}
-              **       id={topic.id}
-              **       key={topic.id}
-              **       title={topic.title}
-              **       duration={topic.duration}
-              **       notes={topic.notes}
-              **     />
-              **   );
-              ** })}
-              ** }}} */
-
-              /* {{{ **
-              ** <Button
-              **   variant="secondary"
-              **   onClick={this.startTimer}
-              ** >Start Timer</Button>
-              ** <Row>
-              **   <Col>
-              **   <span className="TargetTimeBefore">
-              **   At topic start: {this.state.targetTimeBefore} mins
-              **   </span>
-              **   </Col>
-              ** 
-              **   <Col>
-              **   <span className="ActualElapsedTime">
-              **   Time spent: </span>
-              **   </Col>
-              ** 
-              **   <Col>
-              **   <span className="TargetTimeAfter">
-              **   At topic end: {this.state.targetTimeAfter} mins
-              **   </span>
-              **   </Col>
-              ** </Row>
-              ** }}} */
-
   render() {
     // If the lessonId is lost, possibly on a reload then return to the home page
     if (!(this.props.lessonId)) {
       this.props.history.push("/home");
     }
     return (
-      <Container className="d-flex min-vh-100 justify-content-center align-items-center">
+      <Container className="d-flex">
         <Row>
           <Col>
             <ProgTitle />
@@ -261,10 +204,8 @@ class LiveLesson extends React.Component {
                 <Button variant="secondary">Home Page</Button>
               </Link>
               <br />
-              <br />
-              <br />
-              <h3>Lesson (Id:{this.props.lessonId}) {this.props.lessonTitle}</h3>
-              <h3>{this.props.lessonDuration} minutes</h3>
+              <h3>Lesson: {this.props.lessonTitle}</h3>
+              <h3>Duration: {this.props.lessonDuration} minutes</h3>
               <br />
               <LessonCard
                 setStateLesson={this.props.setStateLesson}
@@ -280,16 +221,13 @@ class LiveLesson extends React.Component {
                 title={this.props.lessonTitle}
                 duration={this.props.lessonDuration}
               />
-              <br />
               <h3>Teach the lesson</h3>
-              <br />
               <TimeStatusCard
                 secondsElapsed={0}
-                caption="Time already used and planned time progress as of the current topic"
+                caption="Topic time goals and actual time spent"
                 targetTimeBefore={this.state.targetTimeBefore}
                 targetTimeAfter={this.state.targetTimeAfter}
               />
-              <br />
               <h3>Current topic</h3>
               {this.currTopicJSX()}
               <h3>Next up topic</h3>

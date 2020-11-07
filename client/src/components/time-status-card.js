@@ -101,14 +101,14 @@ function TimeStatusCard(props) {
   }
 
   return (
-    <Card>
-      <Row>
+    <Card className="pl-2">
+      <Row className="mb-2">
         <Col>
         <p>The lesson clock is {status}</p>
         </Col>
       </Row>
 
-      <Row>
+      <Row className="mb-2">
         <Col>
         <Button variant="secondary" onClick={startTimer}>Start</Button>
         </Col>
@@ -120,30 +120,30 @@ function TimeStatusCard(props) {
         </Col>
       </Row>
 
-      <br />
-      <br />
-
-      <Row>
+      <Row className="mb-2">
         <Col>
         <h4>{props.caption}</h4>
         </Col>
       </Row>
 
-      <Row>
+      <Row className="mb-2">
         <Col>
         <span className="TargetTimeBefore">
-        At topic start: {props.targetTimeBefore}:00
+        At topic start:<br />
+        {props.targetTimeBefore}:00
         </span>
         </Col>
 
         <Col>
         <span className="ActualElapsedTime">
-        Time spent: {minDisplay}:{secDisplay}</span>
+        Time spent:<br />
+        {minDisplay}:{secDisplay}</span>
         </Col>
 
         <Col>
         <span className="TargetTimeAfter">
-        At topic end: {props.targetTimeAfter}:00
+        At topic end:<br />
+        {props.targetTimeAfter}:00
         </span>
         </Col>
       </Row>
