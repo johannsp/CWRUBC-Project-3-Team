@@ -7,7 +7,10 @@ module.exports = {
     db.Lesson
       .findAll({})
       .then(dbLesson => res.json(dbLesson))
-      .catch(err => res.status(422).json(err));
+      .catch(err => {
+        res.status(422).json(err);
+        console.log("LESSON API Error:\n",err);
+      });
   },
   findById: function(req, res) {
     // Find one Lesson with the id in req.params.id and return them to the user with res.json
@@ -18,7 +21,10 @@ module.exports = {
         }
       })
       .then(dbLesson => res.json(dbLesson))
-      .catch(err => res.status(422).json(err));
+      .catch(err => {
+        res.status(422).json(err);
+        console.log("LESSON API Error:\n",err);
+      });
   },
   create: function(req, res) {
     // Create an Lesson with the data available to us in req.body
@@ -27,7 +33,10 @@ module.exports = {
       .then(dbLesson => {
         res.json(dbLesson);
       })
-      .catch(err => res.status(422).json(err));
+      .catch(err => {
+        res.status(422).json(err);
+        console.log("LESSON API Error:\n",err);
+      });
   },
   update: function(req, res) {
     // Update takes in an object describing the properties we want to update, and
@@ -44,7 +53,10 @@ module.exports = {
       .then(function(dbLesson) {
         res.json(dbLesson);
       })
-      .catch(err => res.status(422).json(err));
+      .catch(err => {
+        res.status(422).json(err);
+        console.log("LESSON API Error:\n",err);
+      });
   },
   remove: function(req, res) {
     // Delete the Lesson with the id available to us in req.params.id
@@ -55,6 +67,9 @@ module.exports = {
         }
       })
       .then(dbLesson => res.json(dbLesson))
-      .catch(err => res.status(422).json(err));
+      .catch(err => {
+        res.status(422).json(err);
+        console.log("LESSON API Error:\n",err);
+      });
   }
 };

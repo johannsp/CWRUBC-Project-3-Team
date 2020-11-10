@@ -10,7 +10,10 @@ module.exports = {
         include: [db.Lesson]
       })
       .then(dbTopic => res.json(dbTopic))
-      .catch(err => res.status(422).json(err));
+      .catch(err => {
+        res.status(422).json(err);
+        console.log("TOPIC API Error:\n",err);
+      });
   },
   findAllByLessonId: function(req, res) {
     ///include: [db.Lesson] if doing a left join
@@ -22,7 +25,10 @@ module.exports = {
         }
       })
       .then(dbTopic => res.json(dbTopic))
-      .catch(err => res.status(422).json(err));
+      .catch(err => {
+        res.status(422).json(err);
+        console.log("TOPIC API Error:\n",err);
+      });
   },
   findById: function(req, res) {
     // Find one Topic with the id in req.params.id and return them to the user with res.json
@@ -33,7 +39,10 @@ module.exports = {
         }
       })
       .then(dbTopic => res.json(dbTopic))
-      .catch(err => res.status(422).json(err));
+      .catch(err => {
+        res.status(422).json(err);
+        console.log("TOPIC API Error:\n",err);
+      });
   },
   create: function(req, res) {
     // Create an Topic with the data available to us in req.body
@@ -42,7 +51,10 @@ module.exports = {
       .then(dbTopic => {
         res.json(dbTopic);
       })
-      .catch(err => res.status(422).json(err));
+      .catch(err => {
+        res.status(422).json(err);
+        console.log("TOPIC API Error:\n",err);
+      });
   },
   update: function(req, res) {
     // Update takes in an object describing the properties we want to update, and
@@ -60,7 +72,10 @@ module.exports = {
       .then(function(dbTopic) {
         res.json(dbTopic);
       })
-      .catch(err => res.status(422).json(err));
+      .catch(err => {
+        res.status(422).json(err);
+        console.log("TOPIC API Error:\n",err);
+      });
   },
   remove: function(req, res) {
     // Delete the Topic with the id available to us in req.params.id
@@ -71,6 +86,9 @@ module.exports = {
         }
       })
       .then(dbTopic => res.json(dbTopic))
-      .catch(err => res.status(422).json(err));
+      .catch(err => {
+        res.status(422).json(err);
+        console.log("TOPIC API Error:\n",err);
+      });
   }
 };
