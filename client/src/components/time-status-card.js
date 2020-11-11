@@ -60,8 +60,11 @@ function TimeStatusCard(props) {
   ** }}} */
 
   function renderTime() {
-    setMinDisplay(getFormattedMinutes());
-    setSecDisplay(getFormattedSeconds());
+    const mins = getFormattedMinutes();
+    const secs = getFormattedSeconds();
+    setMinDisplay(mins);
+    setSecDisplay(secs);
+    props.setCurrStatus(mins,secs); // Pass back minutes elaspsed for styling
   }
 
   function startTimer() {

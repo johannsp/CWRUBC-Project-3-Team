@@ -28,3 +28,19 @@ body {
 ::placeholder {
   color: black;
 }
+
+.classAheadOfTime {
+  background-color: rgb(145,145,253);
+}
+
+.classOnTime {
+  background-color: rgb(90,252,112);
+}
+
+.classAtTime {
+  background-color: rgb(252,241,90);
+}
+
+.classOverTime {
+  background-color: rgb(251,75,75);
+}

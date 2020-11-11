@@ -149,9 +149,13 @@ function TopicCard(props) {
     return retVal;
   }
 
+  const cardClassName = () => {
+    return `m-3 ${props.classTime}`;
+  }
+
   return (
     <Container className="d-flex justify-content-left align-items-left">
-      <Card className="m-3" style={{ width: "80vw" }}>
+      <Card className={cardClassName()} style={{ width: "80vw" }}>
         <form className="form" onSubmit={handleSubmit}>
           <Row className="mb-2">
             <Col>
