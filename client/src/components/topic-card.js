@@ -152,6 +152,7 @@ function TopicCard(props) {
   const cardClassName = () => {
     return `m-3 ${props.classTime}`;
   }
+
   return (
     <Container className="d-flex justify-content-left align-items-left">
       <Card className={cardClassName()} style={{ width: "80vw" }}>
