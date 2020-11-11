@@ -79,7 +79,6 @@ class App extends Component {
 
   // Populate topics information for current lesson
   setStateTopics = (apiTopicsArray) => {
-    console.log("∞° HI, In setStateTopics apiTopicsArray=\n", apiTopicsArray);
     this.setState({
       topicsArray: apiTopicsArray
     });

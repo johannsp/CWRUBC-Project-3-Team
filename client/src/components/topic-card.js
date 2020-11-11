@@ -54,10 +54,6 @@ function TopicCard(props) {
     titleRef.current.value = props.title;
     durationRef.current.value = props.duration;
     notesRef.current.value = props.notes;
-    console.log("∞° props.lessonId=\n", props.lessonId);
-    console.log("∞° titleRef.current.value=\n", titleRef.current.value);
-    console.log("∞° durationRef.current.value=\n", durationRef.current.value);
-    console.log("∞° notesRef.current.value=\n", notesRef.current.value);
     return true;
   };
 
@@ -140,7 +136,7 @@ function TopicCard(props) {
   }
 
   const duration = () => {
-    const retVal = props.duration || "How many minutes";
+    const retVal = props.duration || "Minutes";
     return retVal;
   }
 
@@ -159,47 +155,52 @@ function TopicCard(props) {
         <form className="form" onSubmit={handleSubmit}>
           <Row className="mb-2">
             <Col>
-            <InputGroup>
-              <InputGroup.Prepend>
-                <InputGroup.Text>
-                Topic:
-                </InputGroup.Text>
-              </InputGroup.Prepend>
-              <input
-                readOnly={viewOnly}
-                ref={titleRef}
-                type="text"
-                placeholder={title()}
-              />
-            </InputGroup>
+              <div className="flex-nowrap">
+                <InputGroup>
+                  <InputGroup.Prepend>
+                    <InputGroup.Text>
+                    Topic:
+                    </InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <input
+                    readOnly={viewOnly}
+                    ref={titleRef}
+                    type="text"
+                    size={50}
+                    placeholder={title()}
+                  />
+                </InputGroup>
 
-            <InputGroup>
-              <InputGroup.Prepend>
-                <InputGroup.Text>
-                Minutes:
-                </InputGroup.Text>
-              </InputGroup.Prepend>
-              <input
-                readOnly={viewOnly}
-                ref={durationRef}
-                type="text"
-                placeholder={duration()}
-              />
-            </InputGroup>
+                <InputGroup>
+                  <InputGroup.Prepend>
+                    <InputGroup.Text>
+                    Minutes:
+                    </InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <input
+                    readOnly={viewOnly}
+                    ref={durationRef}
+                    type="text"
+                    size={10}
+                    placeholder={duration()}
+                  />
+                </InputGroup>
+              </div>
 
-            <InputGroup>
-              <textarea
-                readOnly={viewOnly}
-                ref={notesRef}
-                placeholder={notes()}
-                style={{minWidth: "100%"}}
-              />
-            </InputGroup>
-            {/* Save button is hidden when data input is view only */}
-            {viewOnly
-              ? ""
-              : <Button variant="secondary" type="submit" >Save</Button>
-            }
+              <InputGroup>
+                <textarea
+                  readOnly={viewOnly}
+                  ref={notesRef}
+                  placeholder={notes()}
+                  rows={5}
+                  style={{minWidth: "100%"}}
+                />
+              </InputGroup>
+              {/* Save button is hidden when data input is view only */}
+              {viewOnly
+                ? ""
+                : <Button variant="secondary" type="submit" >Save</Button>
+              }
             </Col>
           </Row>
 

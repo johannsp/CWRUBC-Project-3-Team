@@ -31,34 +31,41 @@ class HomePage extends React.Component {
       <Container className="d-flex min-vh-100 justify-content-center align-items-center">
         <Row>
           <Col>
-            <ProgTitle />
             <Jumbotron>
-              <Link to="/addlesson">
-                <Button
-                  variant="secondary"
-                >Create Lesson Plan</Button>
-              </Link>
-              <br />
-              <h3>List of Lessons</h3>
-              {this.state.lessonData.map((lessonPlan) => {
-                console.log("∞° lessonPlan=\n", lessonPlan);
-                return (
-                  <LessonCard
-                    setStateLesson={this.props.setStateLesson}
-                    setStateLessonTime={this.props.setStateLessonTime}
-                    refreshParent={this.loadLessonPlan}
-                    viewOnly={true}
-                    canStart={true}
-                    canRevise={true}
-                    canEdit={true}
-                    canDelete={true}
-                    id={lessonPlan.id}
-                    key={lessonPlan.id}
-                    title={lessonPlan.title}
-                    duration={lessonPlan.duration}
-                  />
-                );
-              })}
+            <Row>
+              <Col>
+                <ProgTitle />
+                <Link to="/addlesson">
+                  <Button
+                    variant="secondary"
+                  >Create Lesson Plan</Button>
+                </Link>
+              </Col>
+            </Row>
+            <Row className="mt-4">
+              <Col>
+                <h3>List of Lessons</h3>
+                {this.state.lessonData.map((lessonPlan) => {
+                  console.log("∞° lessonPlan=\n", lessonPlan);
+                  return (
+                    <LessonCard
+                      setStateLesson={this.props.setStateLesson}
+                      setStateLessonTime={this.props.setStateLessonTime}
+                      refreshParent={this.loadLessonPlan}
+                      viewOnly={true}
+                      canStart={true}
+                      canRevise={true}
+                      canEdit={true}
+                      canDelete={true}
+                      id={lessonPlan.id}
+                      key={lessonPlan.id}
+                      title={lessonPlan.title}
+                      duration={lessonPlan.duration}
+                    />
+                  );
+                })}
+              </Col>
+            </Row>
             </Jumbotron>
           </Col>
         </Row>
