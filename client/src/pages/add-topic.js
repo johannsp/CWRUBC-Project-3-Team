@@ -55,6 +55,7 @@ class AddTopic extends React.Component {
                 title=""
                 duration={0}
                 notes=""
+                classTime="classNoStatus"
               />
               <h3>List of Topics</h3>
               {this.props.topicsArray.map((topic) => {
@@ -76,6 +77,7 @@ class AddTopic extends React.Component {
                     title={topic.title}
                     duration={topic.duration}
                     notes={topic.notes}
+                    classTime="classNoStatus"
                   />
                 );
               })}

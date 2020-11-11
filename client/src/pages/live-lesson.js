@@ -11,6 +11,9 @@ import TopicAPI from "../utils/databaseTopicAPI";
 class LiveLesson extends React.Component {
   state = {
     lessonId: null,
+    currStatus: "classNoStatus",
+    targetTimeBefore: 0,
+    targetTimeAfter: 0,
     currIndex: null,
     currTopic: null,
     nextIndex: null,
@@ -21,7 +24,38 @@ class LiveLesson extends React.Component {
     this.loadTopicsOnLessonPlan();
   }
 
-  setCurrentTargetTimes(topics, curr, next) {
+  setCurrStatusOnCurrentCard = (elapsedMinutes, elapsedSeconds) => {
+    const mins=parseInt(elapsedMinutes);
+    const secs=parseInt(elapsedSeconds);
+    if ((mins + secs) === 0) {
+      this.setState({
+        currStatus: "classNoStatus"
+      });
+    }
+    else if (mins < this.state.targetTimeBefore) {
+      this.setState({
+        currStatus: "classAheadOfTime"
+      });
+    }
+    else if ((mins === (this.state.targetTimeAfter - 1)) && (secs > 30)) {
+      this.setState({
+        currStatus: "classAtTime"
+      });
+    }
+    else if (mins >= this.state.targetTimeAfter) {
+      this.setState({
+        currStatus: "classOverTime"
+      });
+    }
+    else {
+      this.setState({
+        currStatus: "classOnTime"
+      });
+    }
+    return true;
+  }
+
+  setCurrentTargetTimes = (topics, curr, next) => {
     // Compute planned target times for the begining and ending of the
     // currently displayed topic, which can be compared to the actual
     // elapsed presentation time.
@@ -78,10 +112,6 @@ class LiveLesson extends React.Component {
       .catch(err => console.log(err));
   };
 
-  startTimer = () => {
-    return true;
-  };
-
   goToBackTopic = () => {
     console.log("∞° goToBackTopic...");
     // Scroll backward if possible to previous topic.
@@ -127,6 +157,9 @@ class LiveLesson extends React.Component {
 
   currTopicJSX = () => {
     if (this.state.currTopic) {
+      /* {{{ **
+      ** this.setCurrStatusOnCurrentCard(-1);
+      ** }}} */
       return (
         <>
           <Row>
@@ -144,6 +177,7 @@ class LiveLesson extends React.Component {
               title={this.state.currTopic.title}
               duration={this.state.currTopic.duration}
               notes={this.state.currTopic.notes}
+              classTime={this.state.currStatus}
             />
             </Col>
           </Row>
@@ -181,6 +215,7 @@ class LiveLesson extends React.Component {
           title={this.state.nextTopic.title}
           duration={this.state.nextTopic.duration}
           notes={this.state.nextTopic.notes}
+          classTime="classNoStatus"
         />
       );
     }
@@ -227,6 +262,7 @@ class LiveLesson extends React.Component {
                 caption="Topic time goals and actual time spent"
                 targetTimeBefore={this.state.targetTimeBefore}
                 targetTimeAfter={this.state.targetTimeAfter}
+                setCurrStatus={this.setCurrStatusOnCurrentCard}
               />
               <h3>Current topic</h3>
               {this.currTopicJSX()}
