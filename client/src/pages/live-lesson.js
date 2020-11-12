@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Container, Button, Col, Row, Jumbotron } from "react-bootstrap";
-import ProgTitle from "../components/prog-title";
 import LessonCard from "../components/lesson-card";
 import TopicCard from "../components/topic-card";
 import TimeStatusCard from "../components/time-status-card";
@@ -233,7 +232,6 @@ class LiveLesson extends React.Component {
       <Container className="d-flex">
         <Row>
           <Col>
-            <ProgTitle />
             <Jumbotron>
             <Row>
               <Col>
