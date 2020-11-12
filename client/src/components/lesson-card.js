@@ -57,6 +57,8 @@ function LessonCard(props) {
 
   const editLesson = () => {
     setViewOnly(false);
+    titleRef.current.value = props.title;
+    durationRef.current.value = props.duration;
     return true;
   };
 
@@ -138,6 +140,7 @@ function LessonCard(props) {
               ref={titleRef}
               name="LessonTitle"
               type="text"
+              size={50}
               placeholder={title()}
             />
           </InputGroup>
@@ -154,6 +157,7 @@ function LessonCard(props) {
               ref={durationRef}
               name="lessonDuration"
               type="text"
+              size={10}
               placeholder={duration()}
             />
           </InputGroup>

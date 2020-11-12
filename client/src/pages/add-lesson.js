@@ -1,5 +1,6 @@
 import React from "react";
-import { Container, Col, Row, Jumbotron } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Container, Button, Card, Col, Row, Jumbotron, InputGroup } from "react-bootstrap";
 import ProgTitle from "../components/prog-title";
 import API from "../utils/databaseLessonAPI";
 
@@ -31,7 +32,6 @@ class AddLesson extends React.Component {
     API.saveLesson(data)
       .then( (res) => {
         this.props.setStateLesson(res.data.id, res.data.title);
-        console.log("∞° this.props=\n", this.props);
         this.props.history.push("/addtopic");
       })
       .catch( (error) => {
@@ -45,18 +45,27 @@ class AddLesson extends React.Component {
         <Row>
           <Col>
             <Jumbotron>
-              <ProgTitle />
-              <h3>Add Lesson</h3>
-              <form className="form">
-                <input
-                  value={this.state.lessonTitle}
-                  name="lessonTitle"
-                  onChange={this.handleInputChange}
-                  type="text"
-                  placeholder="Lesson Title"
-                />
-                <button onClick={this.handleFormSubmit}>Save</button>
-              </form>
+              <Card className="m-3" style={{ width: "80vw" }}>
+                <ProgTitle />
+                <Link to="/home">
+                  <Button variant="secondary">Home Page</Button>
+                </Link>
+                <br />
+                <h3>Add Lesson</h3>
+                <form className="form mb-2">
+                  <InputGroup>
+                    <input
+                      value={this.state.lessonTitle}
+                      name="lessonTitle"
+                      onChange={this.handleInputChange}
+                      type="text"
+                      size={50}
+                      placeholder="Lesson Title"
+                    />
+                    <button onClick={this.handleFormSubmit}>Save</button>
+                  </InputGroup>
+                </form>
+              </Card>
             </Jumbotron>
           </Col>
         </Row>

@@ -235,39 +235,46 @@ class LiveLesson extends React.Component {
           <Col>
             <ProgTitle />
             <Jumbotron>
-              <Link to="/home">
-                <Button variant="secondary">Home Page</Button>
-              </Link>
-              <br />
-              <h3>Lesson: {this.props.lessonTitle}</h3>
-              <h3>Duration: {this.props.lessonDuration} minutes</h3>
-              <br />
-              <LessonCard
-                setStateLesson={this.props.setStateLesson}
-                setStateLessonTime={this.props.setStateLessonTime}
-                refreshParent={null}
-                viewOnly={true}
-                canStart={false}
-                canRevise={false}
-                canEdit={false}
-                canDelete={false}
-                id={this.props.lessonId}
-                key={this.props.lessonId}
-                title={this.props.lessonTitle}
-                duration={this.props.lessonDuration}
-              />
-              <h3>Teach the lesson</h3>
-              <TimeStatusCard
-                secondsElapsed={0}
-                caption="Topic time goals and actual time spent"
-                targetTimeBefore={this.state.targetTimeBefore}
-                targetTimeAfter={this.state.targetTimeAfter}
-                setCurrStatus={this.setCurrStatusOnCurrentCard}
-              />
-              <h3>Current topic</h3>
-              {this.currTopicJSX()}
-              <h3>Next up topic</h3>
-              {this.nextTopicJSX()}
+            <Row>
+              <Col>
+                <Link to="/home">
+                  <Button variant="secondary">Home Page</Button>
+                </Link>
+              </Col>
+            </Row>
+            <Row className="mt-4">
+              <Col>
+                <h3>Lesson: {this.props.lessonTitle}</h3>
+                <h3>Duration: {this.props.lessonDuration} minutes</h3>
+                <br />
+                <LessonCard
+                  setStateLesson={this.props.setStateLesson}
+                  setStateLessonTime={this.props.setStateLessonTime}
+                  refreshParent={null}
+                  viewOnly={true}
+                  canStart={false}
+                  canRevise={false}
+                  canEdit={false}
+                  canDelete={false}
+                  id={this.props.lessonId}
+                  key={this.props.lessonId}
+                  title={this.props.lessonTitle}
+                  duration={this.props.lessonDuration}
+                />
+                <h3>Teach the lesson</h3>
+                <TimeStatusCard
+                  secondsElapsed={0}
+                  caption="Topic time goals and actual time spent"
+                  targetTimeBefore={this.state.targetTimeBefore}
+                  targetTimeAfter={this.state.targetTimeAfter}
+                  setCurrStatus={this.setCurrStatusOnCurrentCard}
+                />
+                <h3>Current topic</h3>
+                {this.currTopicJSX()}
+                <h3>Next up topic</h3>
+                {this.nextTopicJSX()}
+              </Col>
+            </Row>
             </Jumbotron>
           </Col>
         </Row>
