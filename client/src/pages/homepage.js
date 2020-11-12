@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Container, Button, Col, Row, Jumbotron } from "react-bootstrap";
-import ProgTitle from "../components/prog-title";
 import LessonCard from "../components/lesson-card";
 import API from "../utils/databaseLessonAPI";
 
@@ -34,7 +33,6 @@ class HomePage extends React.Component {
             <Jumbotron>
             <Row>
               <Col>
-                <ProgTitle />
                 <Link to="/addlesson">
                   <Button
                     variant="secondary"

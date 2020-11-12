@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Container, Button, Col, Row, Jumbotron } from "react-bootstrap";
-import ProgTitle from "../components/prog-title";
 import TopicCard from "../components/topic-card";
 import API from "../utils/databaseTopicAPI";
 
@@ -30,7 +29,6 @@ class AddTopic extends React.Component {
       <Container className="d-flex min-vh-100 justify-content-center align-items-center">
         <Row>
           <Col>
-            <ProgTitle />
             <Jumbotron>
               <Link to="/home">
                 <Button variant="secondary">Home Page</Button>

@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Container, Button, Card, Col, Row, Jumbotron, InputGroup } from "react-bootstrap";
-import ProgTitle from "../components/prog-title";
 import API from "../utils/databaseLessonAPI";
 
 class AddLesson extends React.Component {
@@ -46,7 +45,6 @@ class AddLesson extends React.Component {
           <Col>
             <Jumbotron>
               <Card className="m-3" style={{ width: "80vw" }}>
-                <ProgTitle />
                 <Link to="/home">
                   <Button variant="secondary">Home Page</Button>
                 </Link>
