@@ -5,6 +5,8 @@ A React MERN full stack app to track time flow for topics on a teaching lesson
 Heroku link:
 https://project-3-cwrubc-summer2020.herokuapp.com/
 
+[![Class-Time-App-CWRUBCPrj03-React-App-preview.png](https://i.postimg.cc/50L0Nh88/Class-Time-App-CWRUBCPrj03-React-App-preview.png)](https://postimg.cc/9RXVLN8f)
+
 ## Table of Contents
 - [Installation](https://github.com/johannsp/CWRUBC-Project-3-Team#Installation) 
 - [License](https://github.com/johannsp/CWRUBC-Project-3-Team#License) 
